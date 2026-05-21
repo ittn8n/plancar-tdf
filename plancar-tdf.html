@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Car TDF – Planes de Ahorro Volkswagen Tierra del Fuego</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #001E62;
+    --blue-light: #0047BB;
+    --silver: #C0C0C0;
+    --dark: #0D0F12;
+    --mid: #141720;
+    --light: #F4F5F7;
+    --muted: #8A8E9A;
+  }
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--dark);
+    color: var(--light);
+    min-height: 100vh;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    position: sticky;
+    top: 0;
+    background: rgba(13,15,18,0.96);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--light);
+  }
+  .nav-logo span { color: var(--blue-light); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--light); }
+
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 65% 50%, rgba(0,71,187,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 700;
+    line-height: 0.95;
+    max-width: 14ch;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--blue-light);
+    display: block;
+  }
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 44ch;
+    line-height: 1.75;
+  }
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: inline-block;
+    padding: 0.9rem 2.4rem;
+    background: var(--blue-light);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .hero-cta:hover { background: var(--blue); }
+  .hero-watermark {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    user-select: none;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .about {
+    background: var(--mid);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1100px;
+  }
+  .about p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .about p strong { color: var(--light); }
+  .about-stats { display: flex; flex-direction: column; gap: 2rem; }
+  .stat-item { border-left: 2px solid var(--blue-light); padding-left: 1.5rem; }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--light);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  .plans { background: var(--dark); }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+    max-width: 1100px;
+  }
+  .plan-card {
+    border: 1px solid rgba(255,255,255,0.09);
+    padding: 2rem;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .plan-card:hover { border-color: var(--blue-light); }
+  .plan-card.featured {
+    border-color: var(--blue-light);
+    background: rgba(0,71,187,0.06);
+  }
+  .plan-badge {
+    position: absolute;
+    top: -1px;
+    left: 2rem;
+    background: var(--blue-light);
+    color: #fff;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+  }
+  .plan-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .plan-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .plan-features li {
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .plan-features li::before { content: '—'; position: absolute; left: 0; color: var(--blue-light); }
+
+  .contact {
+    background: var(--mid);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 1100px;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+  .contact-item-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 0.4rem;
+  }
+  .contact-item-value { font-size: 1rem; color: var(--light); line-height: 1.6; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: var(--light);
+    padding: 0.9rem 1rem;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: var(--muted); }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--blue-light); }
+  .contact-form textarea { height: 120px; resize: vertical; }
+  .contact-form button {
+    background: var(--blue-light);
+    color: #fff;
+    border: none;
+    padding: 0.9rem 2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.2s;
+  }
+  .contact-form button:hover { background: var(--blue); }
+
+  footer {
+    background: #070809;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--light);
+  }
+  .footer-logo span { color: var(--blue-light); }
+  .footer-copy { font-size: 0.8rem; color: var(--muted); text-align: center; line-height: 1.7; }
+  .footer-legal { font-size: 0.8rem; color: var(--muted); text-align: right; line-height: 1.7; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 4rem 1.5rem; min-height: 60vh; }
+    .hero-watermark { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid, .plans-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+    .footer-legal { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Plan Car <span>TDF</span></div>
+  <ul class="nav-links">
+    <li><a href="#nosotros">Quiénes somos</a></li>
+    <li><a href="#planes">Planes</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Planes de ahorro Volkswagen · Tierra del Fuego</div>
+  <h1>Tu próximo Volkswagen con <em>Plan Car TDF</em></h1>
+  <p class="hero-sub">Somos la empresa de planes de ahorro Volkswagen de Tierra del Fuego. Asesoramiento personalizado en Río Grande y Ushuaia para que accedas a tu vehículo de forma planificada y segura.</p>
+  <a href="#contacto" class="hero-cta">Consultanos ahora</a>
+  <div class="hero-watermark">VW</div>
+</section>
+
+<section class="about" id="nosotros">
+  <div class="about-grid">
+    <div>
+      <div class="section-label">Quiénes somos</div>
+      <h2 class="section-title">Plan Car TDF</h2>
+      <p><strong>Plan Car TDF</strong> es una empresa dedicada a la comercialización de planes de ahorro Volkswagen en la provincia de Tierra del Fuego, Argentina.</p>
+      <p>Operamos en Río Grande y Ushuaia, brindando asesoramiento personalizado para que accedas a tu vehículo de manera planificada y segura.</p>
+      <p>Somos parte de la red oficial Volkswagen de planes de ahorro, con presencia en toda la provincia y conocimiento profundo del cliente fueguino.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Sucursales en Tierra del Fuego</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">Volkswagen</div>
+        <div class="stat-label">Red oficial de planes de ahorro</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">TDF</div>
+        <div class="stat-label">Río Grande · Ushuaia · Argentina</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="plans" id="planes">
+  <div class="section-label">Lo que ofrecemos</div>
+  <h2 class="section-title">Planes de ahorro Volkswagen</h2>
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div class="plan-name">Plan Clásico</div>
+      <div class="plan-desc">Ideal para quienes quieren comenzar a ahorrar con cuotas accesibles y previsibles.</div>
+      <ul class="plan-features">
+        <li>Cuotas en pesos</li>
+        <li>Licitación mensual</li>
+        <li>Sin interés bancario</li>
+        <li>Asesoramiento personalizado</li>
+      </ul>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-badge">Más elegido</div>
+      <div class="plan-name">Plan Flex</div>
+      <div class="plan-desc">Combiná ahorro con la posibilidad de adelantar cuotas y acceder antes a tu Volkswagen.</div>
+      <ul class="plan-features">
+        <li>Adelanto de cuotas</li>
+        <li>Mayor chance de licitación</li>
+        <li>Gestión digital</li>
+        <li>Soporte prioritario</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Plan Premium</div>
+      <div class="plan-desc">Para quienes buscan acceso rápido a modelos de alta gama de la línea Volkswagen.</div>
+      <ul class="plan-features">
+        <li>Modelos top de gama</li>
+        <li>Licitación preferencial</li>
+        <li>Asesor exclusivo</li>
+        <li>Beneficios adicionales</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="section-label">Hablemos</div>
+  <h2 class="section-title">Contacto</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-item-label">Empresa</div>
+        <div class="contact-item-value">Plan Car TDF</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Río Grande</div>
+        <div class="contact-item-value">Islas Malvinas 2640<br>Río Grande, Tierra del Fuego</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Ushuaia</div>
+        <div class="contact-item-value">Héroes de Malvinas 4121<br>Ushuaia, Tierra del Fuego</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Teléfono</div>
+        <div class="contact-item-value">+54 9 2964 607514</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Provincia</div>
+        <div class="contact-item-value">Tierra del Fuego, Argentina</div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <input type="text" placeholder="Nombre completo" />
+      <input type="email" placeholder="Correo electrónico" />
+      <input type="tel" placeholder="Teléfono" />
+      <textarea placeholder="¿En qué plan estás interesado?"></textarea>
+      <button type="button">Enviar consulta</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Plan Car <span>TDF</span></div>
+  <div class="footer-copy">
+    © 2025 Plan Car TDF — Todos los derechos reservados.<br>
+    Planes de ahorro Volkswagen · Tierra del Fuego, Argentina
+  </div>
+  <div class="footer-legal">
+    Río Grande · Ushuaia<br>
+    Argentina
+  </div>
+</footer>
+
+</body>
+</html>
