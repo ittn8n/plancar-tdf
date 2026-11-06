@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Campañas de Meta — Para aprobación</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 16mm 15mm 14mm; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:  #0B2A5B;
+    --blue:  #1657B8;
+    --sky:   #4E8FE8;
+    --ink:   #16202E;
+    --ink-2: #4A5668;
+    --ink-3: #8390A3;
+    --line:  #DFE4EC;
+    --soft:  #F4F7FB;
+    --warn-bg: #FFF7E6;
+    --warn-bd: #E8B23A;
+    --good:  #1E8E4E;
+  }
+  body {
+    font-family: 'Barlow', system-ui, sans-serif;
+    color: var(--ink); font-size: 10.5pt; line-height: 1.55;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  /* ── Portada ── */
+  .cover { padding-top: 6mm; }
+  .brandline {
+    display: flex; align-items: center; gap: 9px;
+    padding-bottom: 10px; border-bottom: 2px solid var(--navy); margin-bottom: 26px;
+  }
+  .mark {
+    width: 26px; height: 26px; border-radius: 6px;
+    background: linear-gradient(145deg, var(--blue), var(--navy));
+    display: grid; place-items: center; color: #fff;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10pt;
+  }
+  .brandname { font-weight: 700; letter-spacing: 0.04em; font-size: 10pt; }
+  .brandmeta { margin-left: auto; font-size: 8.5pt; color: var(--ink-3); }
+
+  .eyebrow {
+    font-size: 8pt; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--blue); margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 30pt; font-weight: 700;
+    line-height: 1.04; letter-spacing: 0.005em; margin-bottom: 12px;
+  }
+  .lede { font-size: 11.5pt; color: var(--ink-2); max-width: 52ch; }
+
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 16pt; font-weight: 700;
+    margin: 0 0 8px; letter-spacing: 0.01em;
+  }
+  h2 .n {
+    display: inline-grid; place-items: center; width: 20px; height: 20px;
+    border-radius: 50%; background: var(--navy); color: #fff;
+    font-size: 9.5pt; margin-right: 7px; vertical-align: 2px;
+  }
+  h3 { font-size: 11pt; font-weight: 700; margin: 0 0 4px; }
+  p { margin-bottom: 9px; }
+  p:last-child { margin-bottom: 0; }
+  .muted { color: var(--ink-2); }
+  .small { font-size: 9pt; }
+  strong { font-weight: 600; }
+
+  .fig { margin: 12px 0 6px; }
+  .fig img {
+    width: 100%; display: block; border: 1px solid var(--line); border-radius: 6px;
+  }
+  .caption { font-size: 8.5pt; color: var(--ink-3); margin-top: 5px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10pt; }
+  th {
+    text-align: right; font-size: 8pt; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-3);
+    padding: 6px 8px; border-bottom: 1.5px solid var(--navy);
+  }
+  th:first-child { text-align: left; }
+  td {
+    text-align: right; padding: 7px 8px; border-bottom: 1px solid var(--line);
+    font-variant-numeric: tabular-nums;
+  }
+  td:first-child { text-align: left; font-weight: 500; }
+  tfoot td { font-weight: 700; border-top: 1.5px solid var(--navy); border-bottom: none; }
+
+  .box {
+    border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 14px; margin: 10px 0; background: var(--soft);
+  }
+  .box.warn { background: var(--warn-bg); border-color: var(--warn-bd); border-left-width: 3px; }
+  .box h3 { margin-bottom: 5px; }
+  .box .rec {
+    margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.08);
+    font-size: 9.5pt;
+  }
+  .box .rec b { color: var(--navy); }
+
+  ul { margin: 6px 0 9px 18px; }
+  li { margin-bottom: 4px; }
+
+  .check { list-style: none; margin-left: 0; }
+  .check li {
+    position: relative; padding-left: 24px; margin-bottom: 9px;
+  }
+  .check li::before {
+    content: ''; position: absolute; left: 0; top: 2px;
+    width: 13px; height: 13px; border: 1.5px solid var(--navy); border-radius: 3px;
+  }
+
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 9.5pt; }
+  .kv dt { color: var(--ink-3); }
+  .kv dd { font-weight: 500; }
+
+  .foot {
+    margin-top: 18px; padding-top: 9px; border-top: 1px solid var(--line);
+    font-size: 8.5pt; color: var(--ink-3);
+  }
+  .tag {
+    display: inline-block; font-size: 8pt; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+    background: var(--navy); color: #fff; vertical-align: 1px;
+  }
+  .tag.ok { background: var(--good); }
+</style>
+</head>
+<body>
+
+<!-- ══════════ PÁGINA 1 ══════════ -->
+<section class="page cover">
+  <div class="brandline">
+    <div class="mark">IT</div>
+    <div class="brandname">INTEGRALTEK</div>
+    <div class="brandmeta">6 de noviembre de 2026</div>
+  </div>
+
+  <div class="eyebrow">Panel Plan Car · Reportes comerciales</div>
+  <h1>Campañas de Meta</h1>
+  <p class="lede">Nueva sección del panel con el estado de los anuncios: impresiones,
+  leads y costo por lead, filtrando por marca y por período.</p>
+
+  <div class="box" style="margin-top:18px">
+    <h3>Para qué sirve</h3>
+    <p class="muted small" style="margin-bottom:0">Hoy, para saber cómo viene una campaña hay que entrar
+    al Administrador de Anuncios de Meta. Esta sección lo trae al panel, junto al resto de los
+    reportes comerciales, y lo cruza con los leads que efectivamente entraron. En una pantalla
+    se ve qué marca está rindiendo y cuánto cuesta cada consulta.</p>
+  </div>
+
+  <div class="fig" style="margin-top:20px">
+    <img src="cap-kpis.png" alt="Los cuatro números principales">
+    <div class="caption">Últimos 30 días, todas las marcas. Cada número compara contra el período anterior.</div>
+  </div>
+
+  <div class="foot">
+    Integraltek · Panel Plan Car · Documento para revisión y aprobación
+  </div>
+</section>
+
+<!-- ══════════ PÁGINA 2 ══════════ -->
+<section class="page">
+  <h2>Cómo se ve</h2>
+  <div class="fig" style="margin-top:6px">
+    <img src="cap-general.png" alt="Vista general de la sección">
+    <div class="caption">La sección completa, con los últimos 30 días y todas las marcas.</div>
+  </div>
+</section>
+
+<!-- ══════════ PÁGINA 3 ══════════ -->
+<section class="page">
+  <h2><span class="n">1</span>Los números son reales</h2>
+  <p>No es una maqueta con datos inventados. La sección lee
+  <strong>PlanCar_MetaMetrics</strong>, la tabla que ya viene sincronizando sola
+  desde el 1&nbsp;de&nbsp;agosto. Esto es lo que hay en los últimos 30 días:</p>
+
+  <table>
+    <thead>
+      <tr><th>Marca</th><th>Impresiones</th><th>Leads</th><th>Inversión</th><th>Costo/lead</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Chevrolet</td><td>382.601</td><td>149</td><td>$1.313.328</td><td>$8.814</td></tr>
+      <tr><td>Volkswagen</td><td>321.600</td><td>112</td><td>$1.210.944</td><td>$10.812</td></tr>
+      <tr><td>Peugeot</td><td>310.321</td><td>104</td><td>$1.214.984</td><td>$11.683</td></tr>
+      <tr><td>Citroën</td><td>277.126</td><td>100</td><td>$1.286.955</td><td>$12.870</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total</td><td>1.291.648</td><td>465</td><td>$5.026.211</td><td>$10.809</td></tr>
+    </tfoot>
+  </table>
+
+  <p class="small muted">Período 8/10 al 6/11. Los totales de la pantalla se contrastaron
+  uno por uno contra la base: coinciden exacto.</p>
+
+  <p style="margin-top:12px"><strong>Un lead</strong> es una conversación de WhatsApp iniciada
+  desde el anuncio más un formulario de Meta completado. Las dos cosas ya las reporta Meta y ya
+  las trae el sync, así que el conteo no hubo que construirlo.</p>
+
+  <h2 style="margin-top:20px"><span class="n">2</span>Los filtros</h2>
+  <p>Marca y período. Al tocar una marca se recalcula todo a la vez: los cuatro números,
+  la curva y la tabla de campañas.</p>
+
+  <div class="fig">
+    <img src="cap-marca.png" alt="La sección filtrada por Chevrolet">
+    <div class="caption">Filtrando por Chevrolet. Las marcas salen solas de la base; si mañana entra
+    otra terminal aparece en el filtro sin tocar nada.</div>
+  </div>
+</section>
+
+<!-- ══════════ PÁGINA 3 ══════════ -->
+<section class="page">
+  <h2><span class="n">3</span>Dos cosas para decidir antes de publicar</h2>
+  <p>Aparecieron armando esto. Ninguna es grave, pero las dos son decisiones tuyas.</p>
+
+  <div class="box warn">
+    <h3>A. Pediste alcance, y lo que hay son impresiones</h3>
+    <p class="small" style="margin-bottom:6px">La tabla no guarda alcance. Guarda impresiones,
+    que es otra cosa:</p>
+    <ul class="small">
+      <li><strong>Alcance:</strong> personas distintas que vieron el anuncio.</li>
+      <li><strong>Impresiones:</strong> cuántas veces se mostró. La misma persona cuenta varias.</li>
+    </ul>
+    <p class="small" style="margin-bottom:0">Con 1.291.648 impresiones, el alcance real es
+    bastante menor. Poner ese número con la etiqueta "Alcance" sería mostrar un número inflado,
+    y es un número que el cliente puede chequear contra Meta.</p>
+    <div class="rec">
+      <b>Recomendación:</b> publicar ahora diciendo "Impresiones", que es lo correcto, y sumar
+      alcance en una segunda vuelta. Es un campo más en la misma llamada a Meta que ya se hace
+      — poco trabajo, pero no es cambiar una etiqueta.
+      <div style="margin-top:5px"><b>Decidís vos:</b> ¿sale así, o esperamos a tener alcance?</div>
+    </div>
+  </div>
+
+  <div class="box warn">
+    <h3>B. Una campaña está contada en la marca equivocada</h3>
+    <p class="small" style="margin-bottom:0"><strong>Paugeot_Test_Drive_Form</strong> figura como
+    Citroën. Es de Peugeot: el nombre tiene un error de tipeo ("Paugeot") y el mapeo de marca no
+    lo reconoce, así que cae en otra. Son 4 días y $11.088 — poca plata, pero ensucia el filtro
+    por marca, que es justamente lo que pediste.</p>
+    <div class="rec">
+      <b>Recomendación:</b> corregir el nombre en Meta, o agregar el alias al mapeo del sync.
+      Se arregla en el origen, no en el panel. Lo dejé mostrándose tal como está en la base a
+      propósito, para que se vea.
+      <div style="margin-top:5px"><b>Decidís vos:</b> ¿lo corregimos antes de publicar o va después?</div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:20px"><span class="n">4</span>Lo que todavía no hace</h2>
+  <p>El panel cuenta <em>cuántos</em> leads trajo cada campaña, pero no puede decir
+  <em>cuáles</em>. Para seguir el embudo completo —anuncio → lead → venta— hace falta guardar
+  el dato de origen que llega con el primer mensaje de WhatsApp.</p>
+  <p class="small muted">Es el mismo dato que necesita el agente de WhatsApp, así que se hace una
+  vez y sirve para las dos cosas. Vale aclarar algo: ese dato viene <strong>solo en el primer
+  mensaje</strong>. Los leads que entren antes de implementarlo no se van a poder atribuir nunca.</p>
+</section>
+
+<!-- ══════════ PÁGINA 4 ══════════ -->
+<section class="page">
+  <h2><span class="n">5</span>Qué falta para publicarlo</h2>
+
+  <p>Está listo para subir. Son tres pasos y queda andando:</p>
+
+  <ul class="check">
+    <li><strong>Subir el zip por cPanel.</strong> Trae una sola carpeta y nada en la raíz,
+    así que no pisa ni borra nada de lo que ya está en el panel.</li>
+    <li><strong>Agregar una línea al menú</strong>, dentro de Reportes comerciales.</li>
+    <li><strong>Conectarlo a datos en vivo.</strong> Hoy lee un snapshot al 6/11. Para que se
+    actualice solo hay que reemplazar un archivo por un endpoint. La query ya está escrita.</li>
+  </ul>
+
+  <div class="box">
+    <h3>Lo que necesito de vos</h3>
+    <ul style="margin-bottom:0">
+      <li>¿Sale con "Impresiones" o esperamos a tener alcance?</li>
+      <li>¿Corregimos la campaña de Peugeot antes o después de publicar?</li>
+      <li>¿Va en <span class="small" style="font-family:monospace">/reportes-campanias/</span>
+      o preferís otra ruta?</li>
+    </ul>
+  </div>
+
+  <h2 style="margin-top:22px">Detalle técnico</h2>
+  <dl class="kv">
+    <dt>Origen de los datos</dt><dd>public."PlanCar_MetaMetrics" — Supabase Integraltek</dd>
+    <dt>Marcas</dt><dd>Chevrolet, Citroën, Peugeot, Volkswagen</dd>
+    <dt>Campañas</dt><dd>12 en el período, 8 con actividad</dd>
+    <dt>Snapshot</dt><dd>60 días, al 6/11/2026</dd>
+    <dt>Qué se entrega</dt><dd>plancar-campanias.zip — HTML suelto, sin dependencias</dd>
+    <dt>Dónde queda</dt><dd>/reportes-campanias/ (carpeta nueva)</dd>
+  </dl>
+
+  <div class="foot">
+    Integraltek · Panel Plan Car · Documento para revisión y aprobación · 6/11/2026
+  </div>
+</section>
+
+</body>
+</html>
