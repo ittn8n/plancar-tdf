@@ -1,0 +1,68 @@
+===========================================================
+  CAMPAÑAS - ANUNCIOS DE META
+  Seccion para el panel de Plan Car
+===========================================================
+
+QUE TRAE ESTE ZIP
+-----------------
+Una sola carpeta: reportes-campanias/
+No hay archivos en la raiz del zip, asi que al extraerlo
+NO se pisa ni se borra nada de lo que ya esta en el panel.
+
+
+INSTALACION EN CPANEL
+---------------------
+1. cPanel -> Administrador de archivos
+2. Ir a la carpeta del panel (public_html/ o la del subdominio)
+3. Subir este .zip
+4. Clic derecho sobre el zip -> Extract
+5. Borrar el .zip del servidor
+
+Probar en: https://tudominio.com/reportes-campanias/
+
+
+EL UNICO CAMBIO MANUAL
+----------------------
+Agregar el link en el menu del panel, dentro de
+"Reportes comerciales":
+
+    <a href="/reportes-campanias/">Campanas</a>
+
+Si el menu se arma por PHP o desde una tabla de la base,
+agregar la entrada donde corresponda. Es una linea sola.
+
+
+SI QUERES OTRA RUTA
+-------------------
+Se puede renombrar la carpeta o moverla adentro de otra
+(por ejemplo reportes/campanias/). La pagina no depende de
+su ubicacion: no usa rutas absolutas ni carga archivos
+externos salvo la tipografia de Google Fonts.
+
+
+DATOS
+-----
+Los numeros que se ven son de MUESTRA, generados dentro del
+propio index.html. No se conecta a ninguna API todavia.
+
+Para conectarlo de verdad, ver README.md (viene en esta
+misma carpeta). Resumen:
+  - Alcance, inversion y costo por lead: salen de la API
+    de Meta, es sencillo.
+  - Leads de WhatsApp: Meta NO los reporta como leads. Hay
+    que guardar el campo "referral" que llega con el PRIMER
+    mensaje de cada conversacion. Si no se guarda en ese
+    momento, ese lead ya no se puede atribuir nunca.
+
+
+A CONFIRMAR
+-----------
+El filtro de marca esta cargado con Volkswagen, Fiat y
+Chevrolet, para que se vea funcionando. Si Plan Car trabaja
+otras marcas, se cambia el campo "marca" en el array
+ANUNCIOS dentro de index.html.
+
+
+El README.md es documentacion para el equipo. Si no lo
+queres publico en el servidor, se puede borrar despues de
+extraer: la pagina funciona igual sin el.

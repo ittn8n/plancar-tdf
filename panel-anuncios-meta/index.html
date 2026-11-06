@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anuncios de Meta · Panel Plan Car TDF</title>
+<title>Campañas · Reportes comerciales · Plan Car TDF</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,39 +37,49 @@
   }
   .wrap { max-width: 1180px; margin: 0 auto; }
 
-  /* ───────── Encabezado de sección ───────── */
-  .head {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem;
+  /* ───────── Encabezado ───────── */
+  .head { margin-bottom: 1.1rem; }
+  .crumb {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.4rem;
   }
-  .eyebrow {
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--data); margin-bottom: 0.35rem;
-  }
+  .crumb b { color: var(--data); font-weight: 600; }
   h1 {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 1.9rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1;
   }
   .sub { font-size: 0.8rem; color: var(--ink-3); margin-top: 0.35rem; }
 
-  /* Filtros: una sola fila arriba de los gráficos */
-  .filters { display: flex; gap: 0.4rem; }
-  .filters button {
-    font-family: 'Barlow', sans-serif; font-size: 0.8rem; font-weight: 500;
-    background: var(--raised); color: var(--ink-2);
-    border: 1px solid var(--line); border-radius: 8px;
-    padding: 0.45rem 0.85rem; cursor: pointer; transition: all 0.15s;
+  /* ───────── Filtros: una sola fila arriba de los gráficos ───────── */
+  .filterbar {
+    display: flex; align-items: center; gap: 1.1rem;
+    flex-wrap: wrap; margin-bottom: 1rem;
+    padding: 0.8rem 1rem; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 12px;
   }
-  .filters button:hover { color: var(--ink); border-color: var(--line-2); }
-  .filters button[aria-pressed="true"] {
+  .fgroup { display: flex; align-items: center; gap: 0.5rem; }
+  .flabel {
+    font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .chips { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+  .chips button {
+    font-family: 'Barlow', sans-serif; font-size: 0.79rem; font-weight: 500;
+    background: var(--raised); color: var(--ink-2);
+    border: 1px solid var(--line); border-radius: 7px;
+    padding: 0.4rem 0.78rem; cursor: pointer; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .chips button:hover { color: var(--ink); border-color: var(--line-2); }
+  .chips button[aria-pressed="true"] {
     background: var(--data-soft); color: var(--data);
     border-color: rgba(78,155,245,0.4);
   }
+  .fspacer { flex: 1; }
+  .fstamp { font-size: 0.73rem; color: var(--ink-3); white-space: nowrap; }
 
   /* ───────── Tarjetas ───────── */
-  .card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
-  }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
   .card-head {
     padding: 0.95rem 1.15rem; border-bottom: 1px solid var(--line);
     display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
@@ -77,11 +87,8 @@
   .card-title { font-size: 0.93rem; font-weight: 600; }
   .card-note  { font-size: 0.74rem; color: var(--ink-3); }
 
-  /* ───────── Fila de KPIs ───────── */
-  .kpis {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 0.85rem; margin-bottom: 0.85rem;
-  }
+  /* ───────── KPIs ───────── */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; margin-bottom: 0.85rem; }
   .kpi { padding: 1.15rem 1.25rem; }
   .kpi.lead { background: linear-gradient(160deg, rgba(78,155,245,0.10), transparent 70%); }
   .kpi-k {
@@ -97,10 +104,8 @@
     display: flex; align-items: center; gap: 0.35rem;
     font-size: 0.76rem; color: var(--ink-3); margin-top: 0.55rem;
   }
-  .delta { font-weight: 600; display: inline-flex; align-items: center; gap: 0.15rem; }
-  .delta.up   { color: var(--good); }
-  .delta.down { color: var(--bad); }
-  .delta.good-down { color: var(--good); }
+  .delta { font-weight: 600; }
+  .delta.up { color: var(--good); } .delta.down { color: var(--bad); } .delta.flat { color: var(--ink-3); }
 
   /* ───────── Gráfico ───────── */
   .chart-wrap { padding: 1.1rem 1.15rem 0.5rem; position: relative; }
@@ -111,15 +116,10 @@
   .area      { fill: url(#fadeBlue); }
   .crosshair { stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 3 3; }
   .dot-hit   { fill: transparent; cursor: pointer; }
-  .dot {
-    fill: var(--data); stroke: var(--surface); stroke-width: 2;
-    opacity: 0; transition: opacity 0.12s;
-  }
+  .dot { fill: var(--data); stroke: var(--surface); stroke-width: 2; opacity: 0; transition: opacity 0.12s; }
   .dot.on { opacity: 1; }
-  .peak-label {
-    fill: var(--ink); font-size: 11px; font-weight: 600;
-    font-family: 'Barlow', sans-serif; text-anchor: middle;
-  }
+  .peak-label { fill: var(--ink); font-size: 11px; font-weight: 600; font-family: 'Barlow', sans-serif; text-anchor: middle; }
+  .empty-txt { fill: var(--ink-3); font-size: 13px; font-family: 'Barlow', sans-serif; text-anchor: middle; }
 
   .tip {
     position: absolute; pointer-events: none; opacity: 0;
@@ -133,7 +133,7 @@
   .tip-v { font-weight: 600; display: flex; align-items: center; gap: 0.35rem; }
   .swatch { width: 8px; height: 8px; border-radius: 2px; background: var(--data); flex: 0 0 8px; }
 
-  /* ───────── Tabla por anuncio ───────── */
+  /* ───────── Tabla ───────── */
   table { width: 100%; border-collapse: collapse; }
   thead th {
     font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em;
@@ -151,54 +151,46 @@
   td.name { text-align: left; }
   .ad-name { font-weight: 500; }
   .ad-meta { font-size: 0.72rem; color: var(--ink-3); margin-top: 0.15rem; }
+  .marca-tag {
+    display: inline-block; font-size: 0.66rem; font-weight: 600;
+    color: var(--ink-2); background: var(--raised);
+    border: 1px solid var(--line); border-radius: 4px;
+    padding: 0.08rem 0.38rem; margin-right: 0.35rem; vertical-align: 1px;
+  }
 
-  .state {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    font-size: 0.72rem; font-weight: 600;
-  }
-  .state::before {
-    content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
-  }
+  .state { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 600; }
+  .state::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
   .state.activo  { color: var(--good); }
   .state.pausado { color: var(--warn); }
 
-  /* Barra de leads: un solo color, extremo redondeado, anclada a la izquierda */
-  .barcell { width: 170px; }
+  .barcell { width: 150px; }
   .bar-track { background: rgba(255,255,255,0.05); border-radius: 4px; height: 10px; width: 100%; }
-  .bar-fill {
-    height: 10px; background: var(--data);
-    border-radius: 0 4px 4px 0; min-width: 4px;
-    transition: width 0.5s cubic-bezier(.2,.8,.2,1);
-  }
+  .bar-fill { height: 10px; background: var(--data); border-radius: 0 4px 4px 0; width: 0; transition: width 0.5s cubic-bezier(.2,.8,.2,1); }
 
   tfoot td {
     padding: 0.8rem 1.15rem; font-size: 0.87rem; font-weight: 600;
     text-align: right; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums;
   }
   tfoot td:first-child { text-align: left; color: var(--ink-2); }
+  .vacio { padding: 2rem 1.15rem; text-align: center; color: var(--ink-3); font-size: 0.85rem; }
 
   .link-btn {
     background: none; border: none; color: var(--data); cursor: pointer;
     font-family: 'Barlow', sans-serif; font-size: 0.74rem; font-weight: 500;
     padding: 0; text-decoration: underline; text-underline-offset: 2px;
   }
-
   .datatable { display: none; padding: 0 1.15rem 1rem; }
   .datatable.on { display: block; }
   .datatable table td, .datatable table th { padding: 0.4rem 0.5rem; font-size: 0.78rem; }
 
-  .foot {
-    margin-top: 0.85rem; padding: 0.9rem 1.15rem;
-    font-size: 0.76rem; color: var(--ink-3); line-height: 1.6;
-  }
+  .foot { margin-top: 0.85rem; padding: 0.9rem 1.15rem; font-size: 0.76rem; color: var(--ink-3); line-height: 1.6; }
   .foot b { color: var(--ink-2); font-weight: 600; }
-
   .grid-2 { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
 
   @media (max-width: 900px) {
     .kpis { grid-template-columns: repeat(2, 1fr); }
-    .barcell { display: none; }
-    th.barcell { display: none; }
+    .barcell, th.barcell { display: none; }
+    .fspacer { display: none; }
   }
   @media (max-width: 560px) {
     body { padding: 1rem; }
@@ -211,16 +203,27 @@
 <div class="wrap">
 
   <div class="head">
-    <div>
-      <div class="eyebrow">Campañas · Meta Ads</div>
-      <h1>Anuncios de Meta</h1>
-      <div class="sub" id="rangeLabel">Últimos 14 días · actualizado hace 12 min</div>
+    <div class="crumb">Reportes comerciales · <b>Campañas</b></div>
+    <h1>Anuncios de Meta</h1>
+    <div class="sub" id="sub">—</div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filterbar">
+    <div class="fgroup">
+      <span class="flabel">Marca</span>
+      <div class="chips" id="fMarca" role="group" aria-label="Filtrar por marca"></div>
     </div>
-    <div class="filters" role="group" aria-label="Período">
-      <button data-range="7">7 días</button>
-      <button data-range="14" aria-pressed="true">14 días</button>
-      <button data-range="30">30 días</button>
+    <div class="fgroup">
+      <span class="flabel">Período</span>
+      <div class="chips" id="fRango" role="group" aria-label="Filtrar por período">
+        <button data-range="7">7 días</button>
+        <button data-range="14" aria-pressed="true">14 días</button>
+        <button data-range="30">30 días</button>
+      </div>
     </div>
+    <div class="fspacer"></div>
+    <div class="fstamp">Actualizado hace 12 min</div>
   </div>
 
   <!-- KPIs -->
@@ -228,17 +231,17 @@
     <div class="card kpi lead">
       <div class="kpi-k">Alcance</div>
       <div class="kpi-v" id="kpiReach">—</div>
-      <div class="kpi-f"><span class="delta up" id="dReach">—</span> vs. período anterior</div>
+      <div class="kpi-f"><span class="delta" id="dReach">—</span> vs. período anterior</div>
     </div>
     <div class="card kpi lead">
       <div class="kpi-k">Leads</div>
       <div class="kpi-v" id="kpiLeads">—</div>
-      <div class="kpi-f"><span class="delta up" id="dLeads">—</span> vs. período anterior</div>
+      <div class="kpi-f"><span class="delta" id="dLeads">—</span> vs. período anterior</div>
     </div>
     <div class="card kpi">
       <div class="kpi-k">Costo por lead</div>
       <div class="kpi-v" id="kpiCpl">—</div>
-      <div class="kpi-f"><span class="delta good-down" id="dCpl">—</span> vs. período anterior</div>
+      <div class="kpi-f"><span class="delta" id="dCpl">—</span> vs. período anterior</div>
     </div>
     <div class="card kpi">
       <div class="kpi-k">Inversión</div>
@@ -249,24 +252,21 @@
 
   <div class="grid-2">
 
-    <!-- Serie temporal -->
     <div class="card">
       <div class="card-head">
         <div>
           <div class="card-title">Leads por día</div>
-          <div class="card-note">Consultas que llegaron desde los anuncios</div>
+          <div class="card-note" id="chartNote">Consultas que llegaron desde los anuncios</div>
         </div>
         <button class="link-btn" id="toggleData" aria-expanded="false">Ver datos</button>
       </div>
       <div class="chart-wrap">
-        <svg id="chart" role="img"
-             aria-label="Leads por día en el período seleccionado"></svg>
+        <svg id="chart" role="img" aria-label="Leads por día en el período seleccionado"></svg>
         <div class="tip" id="tip"><div class="tip-d"></div><div class="tip-v"><span class="swatch"></span><span></span></div></div>
       </div>
       <div class="datatable" id="dataTable"></div>
     </div>
 
-    <!-- Por anuncio -->
     <div class="card">
       <div class="card-head">
         <div>
@@ -274,20 +274,7 @@
           <div class="card-note">Ordenado por leads generados</div>
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Anuncio</th>
-            <th class="hide-sm">Estado</th>
-            <th>Alcance</th>
-            <th>Leads</th>
-            <th class="barcell"></th>
-            <th class="hide-sm">Costo/lead</th>
-          </tr>
-        </thead>
-        <tbody id="adRows"></tbody>
-        <tfoot id="adFoot"></tfoot>
-      </table>
+      <div id="tablaHost"></div>
     </div>
 
   </div>
@@ -304,187 +291,296 @@
 <script>
 /* ══════════════════════════════════════════════════════════════
    DATOS DE MUESTRA
-   En producción esto lo devuelve el backend ya agregado.
+   En producción el backend devuelve esto ya agregado (ver README).
+   `marca` es el campo que alimenta el filtro de marca: si Plan Car
+   trabaja otras terminales, se cambian acá y el filtro se arma solo.
    ══════════════════════════════════════════════════════════════ */
+const HOY = new Date(2026, 10, 6);   /* 6/11/2026 */
+const DIAS_DATOS = 60;               /* alcanza para comparar 30 vs 30 */
+
 const ANUNCIOS = [
-  { id: '238...401', nombre: 'Plan Flex — Río Grande',        campania: 'TDF-FLEX-NOV',   estado: 'activo',  alcance: 14820, leads: 24, gasto: 86400 },
-  { id: '238...402', nombre: '0km sin interés — TDF',         campania: 'TDF-0KM-NOV',    estado: 'activo',  alcance: 11340, leads: 19, gasto: 71200 },
-  { id: '238...403', nombre: 'Plan Clásico — Ushuaia',        campania: 'TDF-CLAS-NOV',   estado: 'activo',  alcance:  9610, leads: 14, gasto: 48900 },
-  { id: '238...404', nombre: 'Polo Track — Plan de ahorro',   campania: 'TDF-POLO-OCT',   estado: 'pausado', alcance:  7950, leads: 12, gasto: 39600 },
-  { id: '238...405', nombre: 'Retargeting — visitantes web',  campania: 'TDF-RETG-NOV',   estado: 'activo',  alcance:  4600, leads:  8, gasto: 17240 }
+  { id: '238...401', nombre: 'Plan Flex — Río Grande',       campania: 'TDF-FLEX-NOV', marca: 'Volkswagen', estado: 'activo',
+    base: { alcance: 1060, leads: 1.75, gasto: 6180 }, semilla: 11 },
+  { id: '238...402', nombre: '0km sin interés — TDF',        campania: 'TDF-0KM-NOV',  marca: 'Volkswagen', estado: 'activo',
+    base: { alcance: 810,  leads: 1.35, gasto: 5090 }, semilla: 22 },
+  { id: '238...403', nombre: 'Plan Clásico — Ushuaia',       campania: 'TDF-CLAS-NOV', marca: 'Volkswagen', estado: 'activo',
+    base: { alcance: 690,  leads: 1.00, gasto: 3490 }, semilla: 33 },
+  { id: '238...404', nombre: 'Cronos — Plan de ahorro',      campania: 'TDF-CRON-OCT', marca: 'Fiat',       estado: 'pausado',
+    base: { alcance: 570,  leads: 0.86, gasto: 2830 }, semilla: 44, pausadoHace: 9 },
+  { id: '238...405', nombre: 'Onix — Cuota fija 12 meses',   campania: 'TDF-ONIX-NOV', marca: 'Chevrolet',  estado: 'activo',
+    base: { alcance: 640,  leads: 0.95, gasto: 3120 }, semilla: 55 },
+  { id: '238...406', nombre: 'Retargeting — visitantes web', campania: 'TDF-RETG-NOV', marca: 'Volkswagen', estado: 'activo',
+    base: { alcance: 330,  leads: 0.58, gasto: 1230 }, semilla: 66 }
 ];
 
-/* Leads por día, del más viejo al más nuevo */
-const SERIE_14 = [3, 5, 2, 4, 6, 8, 5, 3, 7, 9, 6, 4, 8, 7];
+/* ── Generador determinista: mismos números en cada carga ── */
+function rng(semilla) {
+  let a = semilla >>> 0;
+  return function () {
+    a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+/* Fin de semana rinde menos; es lo que se ve en las campañas reales */
+const FACTOR_DIA = [0.72, 1.08, 1.12, 1.05, 1.0, 1.1, 0.78];
 
-const DELTAS = { reach: +12, leads: +21, cpl: -7 };
+/* Para cada anuncio, DIAS_DATOS jornadas: índice 0 = el más viejo */
+function generarDias(ad) {
+  const r = rng(ad.semilla);
+  const out = [];
+  for (let i = 0; i < DIAS_DATOS; i++) {
+    const fecha = new Date(HOY);
+    fecha.setDate(HOY.getDate() - (DIAS_DATOS - 1 - i));
+    const diasAtras = DIAS_DATOS - 1 - i;
 
-/* ── Formato ── */
-const nf  = new Intl.NumberFormat('es-AR');
+    /* Un anuncio pausado deja de gastar y de traer consultas */
+    if (ad.pausadoHace != null && diasAtras < ad.pausadoHace) {
+      out.push({ fecha, alcance: 0, leads: 0, gasto: 0 });
+      continue;
+    }
+    const f = FACTOR_DIA[fecha.getDay()];
+    const ruido = 0.62 + r() * 0.78;
+    const tendencia = 0.78 + (i / DIAS_DATOS) * 0.50;   /* las campañas vienen mejorando */
+    out.push({
+      fecha,
+      alcance: Math.round(ad.base.alcance * f * ruido * tendencia),
+      leads:   Math.round(ad.base.leads   * f * (0.45 + r() * 1.25) * tendencia),
+      gasto:   Math.round(ad.base.gasto   * f * (0.85 + r() * 0.3))
+    });
+  }
+  return out;
+}
+ANUNCIOS.forEach(a => { a.dias = generarDias(a); });
+
+/* ══════════════════════════════════════════════════════════════
+   ESTADO DE LOS FILTROS
+   ══════════════════════════════════════════════════════════════ */
+let filtroMarca = 'Todas';
+let rango = 14;
+
+const MARCAS = ['Todas', ...[...new Set(ANUNCIOS.map(a => a.marca))].sort()];
+
+const nf = new Intl.NumberFormat('es-AR');
 const money = (n) => '$' + nf.format(Math.round(n));
+const $ = (s) => document.querySelector(s);
+
+/* Anuncios que pasan el filtro de marca */
+function anunciosFiltrados() {
+  return filtroMarca === 'Todas' ? ANUNCIOS : ANUNCIOS.filter(a => a.marca === filtroMarca);
+}
+
+/* Suma de un anuncio entre dos índices de día [desde, hasta) */
+function sumar(ad, desde, hasta) {
+  let alcance = 0, leads = 0, gasto = 0;
+  for (let i = desde; i < hasta; i++) {
+    alcance += ad.dias[i].alcance;
+    leads   += ad.dias[i].leads;
+    gasto   += ad.dias[i].gasto;
+  }
+  return { alcance, leads, gasto };
+}
+function totales(ads, desde, hasta) {
+  return ads.reduce((acc, ad) => {
+    const s = sumar(ad, desde, hasta);
+    acc.alcance += s.alcance; acc.leads += s.leads; acc.gasto += s.gasto;
+    return acc;
+  }, { alcance: 0, leads: 0, gasto: 0 });
+}
 
 /* ══════════════════════════════════════════════════════════════
    KPIs
    ══════════════════════════════════════════════════════════════ */
+function pintarDelta(el, pct, menosEsMejor) {
+  if (pct === null) { el.textContent = 's/d'; el.className = 'delta flat'; return; }
+  const sube = pct > 0;
+  const bueno = menosEsMejor ? !sube : sube;
+  el.textContent = (sube ? '▲ ' : pct < 0 ? '▼ ' : '– ') + Math.abs(pct) + '%';
+  el.className = 'delta ' + (pct === 0 ? 'flat' : bueno ? 'up' : 'down');
+}
+function variacion(ahora, antes) {
+  if (!antes) return null;
+  return Math.round(((ahora - antes) / antes) * 100);
+}
+
 function pintarKpis() {
-  const alcance = ANUNCIOS.reduce((a, x) => a + x.alcance, 0);
-  const leads   = ANUNCIOS.reduce((a, x) => a + x.leads, 0);
-  const gasto   = ANUNCIOS.reduce((a, x) => a + x.gasto, 0);
+  const ads = anunciosFiltrados();
+  const finAhora   = DIAS_DATOS;
+  const iniAhora   = DIAS_DATOS - rango;
+  const iniAntes   = Math.max(0, iniAhora - rango);
 
-  document.getElementById('kpiReach').textContent  = nf.format(alcance);
-  document.getElementById('kpiLeads').textContent  = nf.format(leads);
-  document.getElementById('kpiCpl').textContent    = money(gasto / leads);
-  document.getElementById('kpiSpend').textContent  = money(gasto);
+  const act = totales(ads, iniAhora, finAhora);
+  const ant = totales(ads, iniAntes, iniAhora);
 
-  document.getElementById('dReach').textContent = '▲ ' + DELTAS.reach + '%';
-  document.getElementById('dLeads').textContent = '▲ ' + DELTAS.leads + '%';
-  document.getElementById('dCpl').textContent   = '▼ ' + Math.abs(DELTAS.cpl) + '%';
-  document.getElementById('dSpend').textContent = ANUNCIOS.filter(a => a.estado === 'activo').length + ' anuncios activos';
+  const cplAct = act.leads ? act.gasto / act.leads : 0;
+  const cplAnt = ant.leads ? ant.gasto / ant.leads : 0;
+
+  $('#kpiReach').textContent = nf.format(act.alcance);
+  $('#kpiLeads').textContent = nf.format(act.leads);
+  $('#kpiCpl').textContent   = act.leads ? money(cplAct) : '—';
+  $('#kpiSpend').textContent = money(act.gasto);
+
+  pintarDelta($('#dReach'), variacion(act.alcance, ant.alcance), false);
+  pintarDelta($('#dLeads'), variacion(act.leads,   ant.leads),   false);
+  pintarDelta($('#dCpl'),   cplAnt ? variacion(cplAct, cplAnt) : null, true);
+
+  const activos = ads.filter(a => a.estado === 'activo').length;
+  $('#dSpend').textContent = activos + (activos === 1 ? ' anuncio activo' : ' anuncios activos');
+
+  $('#sub').textContent =
+    `Últimos ${rango} días · ${filtroMarca === 'Todas' ? 'todas las marcas' : filtroMarca} · ${ads.length} ${ads.length === 1 ? 'anuncio' : 'anuncios'}`;
+  $('#chartNote').textContent = filtroMarca === 'Todas'
+    ? 'Consultas que llegaron desde los anuncios'
+    : `Consultas de los anuncios de ${filtroMarca}`;
 }
 
 /* ══════════════════════════════════════════════════════════════
    TABLA POR ANUNCIO
    ══════════════════════════════════════════════════════════════ */
 function pintarAnuncios() {
-  const orden = [...ANUNCIOS].sort((a, b) => b.leads - a.leads);
-  const max = Math.max(...orden.map(a => a.leads));
-  const tb = document.getElementById('adRows');
-  tb.innerHTML = '';
+  const ads = anunciosFiltrados();
+  const iniAhora = DIAS_DATOS - rango;
+  const filas = ads
+    .map(a => ({ ad: a, ...sumar(a, iniAhora, DIAS_DATOS) }))
+    .sort((x, y) => y.leads - x.leads);
 
-  orden.forEach((a) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="name">
-        <div class="ad-name">${a.nombre}</div>
-        <div class="ad-meta">${a.campania}</div>
-      </td>
-      <td class="hide-sm"><span class="state ${a.estado}">${a.estado === 'activo' ? 'Activo' : 'Pausado'}</span></td>
-      <td>${nf.format(a.alcance)}</td>
-      <td><b>${a.leads}</b></td>
-      <td class="barcell">
-        <div class="bar-track"><div class="bar-fill" style="width:0"></div></div>
-      </td>
-      <td class="hide-sm">${money(a.gasto / a.leads)}</td>`;
-    tb.appendChild(tr);
-    /* animación de entrada */
-    requestAnimationFrame(() => {
-      tr.querySelector('.bar-fill').style.width = (a.leads / max * 100) + '%';
-    });
-  });
+  const host = $('#tablaHost');
+  if (!filas.length) {
+    host.innerHTML = '<div class="vacio">No hay anuncios para esta marca en el período elegido.</div>';
+    return;
+  }
+  const max = Math.max(...filas.map(f => f.leads), 1);
 
-  const alcance = ANUNCIOS.reduce((s, x) => s + x.alcance, 0);
-  const leads   = ANUNCIOS.reduce((s, x) => s + x.leads, 0);
-  const gasto   = ANUNCIOS.reduce((s, x) => s + x.gasto, 0);
-  document.getElementById('adFoot').innerHTML = `
+  const cuerpo = filas.map(f => `
     <tr>
-      <td>Total</td>
-      <td class="hide-sm"></td>
-      <td>${nf.format(alcance)}</td>
-      <td>${leads}</td>
-      <td class="barcell"></td>
-      <td class="hide-sm">${money(gasto / leads)}</td>
-    </tr>`;
+      <td class="name">
+        <div class="ad-name">${f.ad.nombre}</div>
+        <div class="ad-meta"><span class="marca-tag">${f.ad.marca}</span>${f.ad.campania}</div>
+      </td>
+      <td class="hide-sm"><span class="state ${f.ad.estado}">${f.ad.estado === 'activo' ? 'Activo' : 'Pausado'}</span></td>
+      <td>${nf.format(f.alcance)}</td>
+      <td><b>${f.leads}</b></td>
+      <td class="barcell"><div class="bar-track"><div class="bar-fill" data-w="${(f.leads / max * 100)}"></div></div></td>
+      <td class="hide-sm">${f.leads ? money(f.gasto / f.leads) : '—'}</td>
+    </tr>`).join('');
+
+  const t = filas.reduce((a, f) => ({ alcance: a.alcance + f.alcance, leads: a.leads + f.leads, gasto: a.gasto + f.gasto }),
+                         { alcance: 0, leads: 0, gasto: 0 });
+
+  host.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Anuncio</th><th class="hide-sm">Estado</th><th>Alcance</th><th>Leads</th>
+        <th class="barcell"></th><th class="hide-sm">Costo/lead</th>
+      </tr></thead>
+      <tbody>${cuerpo}</tbody>
+      <tfoot><tr>
+        <td>Total</td><td class="hide-sm"></td>
+        <td>${nf.format(t.alcance)}</td><td>${t.leads}</td>
+        <td class="barcell"></td><td class="hide-sm">${t.leads ? money(t.gasto / t.leads) : '—'}</td>
+      </tr></tfoot>
+    </table>`;
+
+  requestAnimationFrame(() => {
+    host.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
+  });
 }
 
 /* ══════════════════════════════════════════════════════════════
-   GRÁFICO DE LÍNEA — una sola serie, sin leyenda (el título la nombra)
+   GRÁFICO — una sola serie, sin leyenda (el título la nombra)
    ══════════════════════════════════════════════════════════════ */
-/* El viewBox se arma con el ancho real del contenedor, así la escala es 1:1
-   y el trazo no se deforma al cambiar el tamaño de la ventana. */
 const H = 220, M = { t: 18, r: 14, b: 26, l: 34 };
 let W = 860;
-let serieActual = SERIE_14;
 
-function fechas(n) {
-  const out = [], hoy = new Date(2026, 10, 6);
-  for (let i = n - 1; i >= 0; i--) {
-    const d = new Date(hoy); d.setDate(hoy.getDate() - i);
-    out.push(d);
+const NOMBRE_DIA = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+const fmtDia = (d) => `${NOMBRE_DIA[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`;
+
+function serieActual() {
+  const ads = anunciosFiltrados();
+  const ini = DIAS_DATOS - rango;
+  const out = [];
+  for (let i = ini; i < DIAS_DATOS; i++) {
+    out.push({
+      fecha: ANUNCIOS[0].dias[i].fecha,
+      valor: ads.reduce((s, a) => s + a.dias[i].leads, 0)
+    });
   }
   return out;
 }
-const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
-const fmtDia = (d) => `${DIAS[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`;
 
-function dibujar(serie) {
-  const svg = document.getElementById('chart');
+function dibujar() {
+  const svg = $('#chart');
   W = Math.max(360, Math.round(svg.getBoundingClientRect().width) || 860);
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
-  const ds = fechas(serie.length);
-  const max = Math.max(...serie);
-  /* techo "lindo": múltiplo de 2 por encima del máximo */
-  const top = Math.ceil((max * 1.25) / 2) * 2;
+  const serie = serieActual();
+  const vals = serie.map(p => p.valor);
+  const max = Math.max(...vals);
 
-  const x = (i) => M.l + (i / (serie.length - 1)) * (W - M.l - M.r);
+  if (!serie.length || max === 0) {
+    svg.innerHTML = `<text class="empty-txt" x="${W / 2}" y="${H / 2}">Sin leads en el período elegido</text>`;
+    $('#dataTable').innerHTML = '';
+    return;
+  }
+
+  const top = Math.max(2, Math.ceil((max * 1.25) / 2) * 2);
+  const x = (i) => M.l + (i / Math.max(1, serie.length - 1)) * (W - M.l - M.r);
   const y = (v) => M.t + (1 - v / top) * (H - M.t - M.b);
 
-  let s = `<defs>
-    <linearGradient id="fadeBlue" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#4E9BF5" stop-opacity="0.22"/>
+  let s = `<defs><linearGradient id="fadeBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4E9BF5" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="#4E9BF5" stop-opacity="0"/>
-    </linearGradient>
-  </defs>`;
+    </linearGradient></defs>`;
 
-  /* Grilla + eje Y (recesivos) */
   const pasos = 4;
   for (let i = 0; i <= pasos; i++) {
     const v = (top / pasos) * i, yy = y(v);
     s += `<line class="grid-line" x1="${M.l}" y1="${yy}" x2="${W - M.r}" y2="${yy}"/>`;
-    s += `<text class="axis-txt" x="${M.l - 9}" y="${yy + 4}" text-anchor="end">${v}</text>`;
+    s += `<text class="axis-txt" x="${M.l - 9}" y="${yy + 4}" text-anchor="end">${Math.round(v)}</text>`;
   }
 
-  /* Área + línea */
-  const pts = serie.map((v, i) => [x(i), y(v)]);
+  const pts = serie.map((p, i) => [x(i), y(p.valor)]);
   s += `<path class="area" d="M${pts.map(p => p.join(',')).join(' L')} L${x(serie.length - 1)},${y(0)} L${x(0)},${y(0)} Z"/>`;
   s += `<path class="series" d="M${pts.map(p => p.join(',')).join(' L')}"/>`;
 
-  /* Eje X: sólo algunas fechas, para que no se amontonen */
   const salto = Math.ceil(serie.length / 7);
-  ds.forEach((d, i) => {
+  serie.forEach((p, i) => {
     if (i % salto === 0 || i === serie.length - 1) {
-      s += `<text class="axis-txt" x="${x(i)}" y="${H - 6}" text-anchor="middle">${d.getDate()}/${d.getMonth() + 1}</text>`;
+      s += `<text class="axis-txt" x="${x(i)}" y="${H - 6}" text-anchor="middle">${p.fecha.getDate()}/${p.fecha.getMonth() + 1}</text>`;
     }
   });
 
-  /* Etiqueta directa sólo en el pico */
-  const iMax = serie.indexOf(max);
+  const iMax = vals.indexOf(max);
   s += `<text class="peak-label" x="${x(iMax)}" y="${y(max) - 12}">${max}</text>`;
 
-  /* Crosshair + puntos + zonas de hover anchas */
   s += `<line class="crosshair" id="cross" x1="0" y1="${M.t}" x2="0" y2="${H - M.b}" style="opacity:0"/>`;
-  serie.forEach((v, i) => {
-    s += `<circle class="dot" id="dot-${i}" cx="${x(i)}" cy="${y(v)}" r="4.5"/>`;
-  });
-  const ancho = (W - M.l - M.r) / (serie.length - 1);
-  serie.forEach((v, i) => {
+  serie.forEach((p, i) => { s += `<circle class="dot" id="dot-${i}" cx="${x(i)}" cy="${y(p.valor)}" r="4.5"/>`; });
+
+  const ancho = (W - M.l - M.r) / Math.max(1, serie.length - 1);
+  serie.forEach((p, i) => {
     s += `<rect class="dot-hit" x="${x(i) - ancho / 2}" y="${M.t}" width="${ancho}" height="${H - M.t - M.b}"
-            data-i="${i}" data-v="${v}" data-d="${fmtDia(ds[i])}"/>`;
+            data-i="${i}" data-v="${p.valor}" data-d="${fmtDia(p.fecha)}"/>`;
   });
 
   svg.innerHTML = s;
   engancharHover(svg, serie, x, y);
-  pintarDatos(serie, ds);
+  pintarDatos(serie);
 }
 
 function engancharHover(svg, serie, x, y) {
-  const tip = document.getElementById('tip');
-  const cross = svg.querySelector('#cross');
-  const wrap = svg.parentElement;
-
+  const tip = $('#tip'), cross = svg.querySelector('#cross'), wrap = svg.parentElement;
   svg.querySelectorAll('.dot-hit').forEach((r) => {
     r.addEventListener('mouseenter', () => {
-      const i = +r.dataset.i;
-      const px = x(i), py = y(serie[i]);
+      const i = +r.dataset.i, px = x(i), py = y(serie[i].valor);
       cross.setAttribute('x1', px); cross.setAttribute('x2', px);
       cross.style.opacity = 1;
       svg.querySelectorAll('.dot').forEach(d => d.classList.remove('on'));
       svg.querySelector('#dot-' + i).classList.add('on');
 
-      /* del sistema de coordenadas del SVG a píxeles de la tarjeta */
-      const rect = svg.getBoundingClientRect();
-      tip.style.left = (rect.left - wrap.getBoundingClientRect().left + px / W * rect.width) + 'px';
-      tip.style.top  = (rect.top  - wrap.getBoundingClientRect().top  + py / H * rect.height) + 'px';
+      const rs = svg.getBoundingClientRect(), rw = wrap.getBoundingClientRect();
+      tip.style.left = (rs.left - rw.left + px / W * rs.width) + 'px';
+      tip.style.top  = (rs.top  - rw.top  + py / H * rs.height) + 'px';
       tip.querySelector('.tip-d').textContent = r.dataset.d;
       tip.querySelector('.tip-v span:last-child').textContent =
         r.dataset.v + (r.dataset.v === '1' ? ' lead' : ' leads');
@@ -492,57 +588,61 @@ function engancharHover(svg, serie, x, y) {
     });
   });
   svg.addEventListener('mouseleave', () => {
-    tip.classList.remove('on');
-    cross.style.opacity = 0;
+    tip.classList.remove('on'); cross.style.opacity = 0;
     svg.querySelectorAll('.dot').forEach(d => d.classList.remove('on'));
   });
 }
 
 /* Vista de tabla del gráfico (accesibilidad) */
-function pintarDatos(serie, ds) {
-  const filas = serie.map((v, i) => `<tr><td style="text-align:left">${fmtDia(ds[i])}</td><td>${v}</td></tr>`).join('');
-  document.getElementById('dataTable').innerHTML =
+function pintarDatos(serie) {
+  const filas = serie.map(p => `<tr><td style="text-align:left">${fmtDia(p.fecha)}</td><td>${p.valor}</td></tr>`).join('');
+  $('#dataTable').innerHTML =
     `<table><thead><tr><th>Día</th><th>Leads</th></tr></thead><tbody>${filas}</tbody></table>`;
 }
 
 /* ══════════════════════════════════════════════════════════════
    FILTROS Y ARRANQUE
    ══════════════════════════════════════════════════════════════ */
-function serieDe(n) {
-  if (n === 14) return SERIE_14;
-  if (n === 7)  return SERIE_14.slice(-7);
-  /* 30 días: se extiende hacia atrás con valores plausibles */
-  const extra = [2, 4, 3, 5, 1, 6, 4, 2, 5, 3, 7, 4, 2, 6, 5, 3];
-  return extra.concat(SERIE_14);
+function refrescar() { pintarKpis(); pintarAnuncios(); dibujar(); }
+
+function montarMarcas() {
+  const cont = $('#fMarca');
+  MARCAS.forEach((m) => {
+    const b = document.createElement('button');
+    b.textContent = m;
+    b.dataset.marca = m;
+    b.setAttribute('aria-pressed', String(m === filtroMarca));
+    b.addEventListener('click', () => {
+      filtroMarca = m;
+      cont.querySelectorAll('button').forEach(o => o.setAttribute('aria-pressed', String(o.dataset.marca === m)));
+      refrescar();
+    });
+    cont.appendChild(b);
+  });
 }
 
-document.querySelectorAll('.filters button').forEach((b) => {
+$('#fRango').querySelectorAll('button').forEach((b) => {
   b.addEventListener('click', () => {
-    document.querySelectorAll('.filters button').forEach(o => o.setAttribute('aria-pressed', 'false'));
+    $('#fRango').querySelectorAll('button').forEach(o => o.setAttribute('aria-pressed', 'false'));
     b.setAttribute('aria-pressed', 'true');
-    const n = +b.dataset.range;
-    document.getElementById('rangeLabel').textContent =
-      `Últimos ${n} días · actualizado hace 12 min`;
-    serieActual = serieDe(n);
-    dibujar(serieActual);
+    rango = +b.dataset.range;
+    refrescar();
   });
 });
 
-document.getElementById('toggleData').addEventListener('click', (e) => {
-  const dt = document.getElementById('dataTable');
-  const on = dt.classList.toggle('on');
+$('#toggleData').addEventListener('click', (e) => {
+  const on = $('#dataTable').classList.toggle('on');
   e.target.textContent = on ? 'Ocultar datos' : 'Ver datos';
   e.target.setAttribute('aria-expanded', String(on));
 });
 
-pintarKpis();
-pintarAnuncios();
-dibujar(serieActual);
+montarMarcas();
+refrescar();
 
 let reTimer;
 window.addEventListener('resize', () => {
   clearTimeout(reTimer);
-  reTimer = setTimeout(() => dibujar(serieActual), 120);
+  reTimer = setTimeout(dibujar, 120);
 });
 </script>
 </body>
