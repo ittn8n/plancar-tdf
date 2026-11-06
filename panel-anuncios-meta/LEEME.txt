@@ -1,6 +1,7 @@
 ===========================================================
-  CAMPAÑAS - ANUNCIOS DE META
+  CAMPANAS - ANUNCIOS DE META
   Seccion para el panel de Plan Car
+  Reportes comerciales -> Campanas
 ===========================================================
 
 QUE TRAE ESTE ZIP
@@ -8,6 +9,11 @@ QUE TRAE ESTE ZIP
 Una sola carpeta: reportes-campanias/
 No hay archivos en la raiz del zip, asi que al extraerlo
 NO se pisa ni se borra nada de lo que ya esta en el panel.
+
+  reportes-campanias/
+    index.html   la pagina
+    datos.js     snapshot de datos (06/11/2026)
+    README.md    documentacion para el equipo
 
 
 INSTALACION EN CPANEL
@@ -23,8 +29,7 @@ Probar en: https://tudominio.com/reportes-campanias/
 
 EL UNICO CAMBIO MANUAL
 ----------------------
-Agregar el link en el menu del panel, dentro de
-"Reportes comerciales":
+Agregar el link en el menu, dentro de "Reportes comerciales":
 
     <a href="/reportes-campanias/">Campanas</a>
 
@@ -32,35 +37,42 @@ Si el menu se arma por PHP o desde una tabla de la base,
 agregar la entrada donde corresponda. Es una linea sola.
 
 
+LOS DATOS SON REALES
+--------------------
+No son de muestra. Salen de la tabla PlanCar_MetaMetrics
+del Supabase de Integraltek. datos.js es un snapshot de los
+ultimos 60 dias al 06/11/2026.
+
+Para que se actualice solo hay que reemplazar datos.js por
+un endpoint. La query esta en el README.md.
+
+
+DOS COSAS A REVISAR ANTES DE MOSTRARLO
+--------------------------------------
+1) NO HAY ALCANCE.
+   La base guarda "impresiones", no alcance. No es lo mismo:
+   alcance son personas unicas, impresiones son veces que se
+   mostro el anuncio. Por eso el panel dice "Impresiones" y
+   no "Alcance".
+   Para tener alcance hay que sumar el campo "reach" al sync
+   de Meta y una columna a la tabla. Es poco trabajo.
+
+2) UNA CAMPANA MAL CLASIFICADA.
+   "Paugeot_Test_Drive_Form" figura como Citroen. Es de
+   Peugeot: el nombre tiene un error de tipeo y el mapeo de
+   marca no lo reconoce. Son 4 dias y $11.088.
+   Se arregla en el origen, no en el panel.
+
+El panel los muestra tal como estan en la base, a proposito,
+para que se vea el problema real.
+
+
 SI QUERES OTRA RUTA
 -------------------
 Se puede renombrar la carpeta o moverla adentro de otra
 (por ejemplo reportes/campanias/). La pagina no depende de
-su ubicacion: no usa rutas absolutas ni carga archivos
-externos salvo la tipografia de Google Fonts.
-
-
-DATOS
------
-Los numeros que se ven son de MUESTRA, generados dentro del
-propio index.html. No se conecta a ninguna API todavia.
-
-Para conectarlo de verdad, ver README.md (viene en esta
-misma carpeta). Resumen:
-  - Alcance, inversion y costo por lead: salen de la API
-    de Meta, es sencillo.
-  - Leads de WhatsApp: Meta NO los reporta como leads. Hay
-    que guardar el campo "referral" que llega con el PRIMER
-    mensaje de cada conversacion. Si no se guarda en ese
-    momento, ese lead ya no se puede atribuir nunca.
-
-
-A CONFIRMAR
------------
-El filtro de marca esta cargado con Volkswagen, Fiat y
-Chevrolet, para que se vea funcionando. Si Plan Car trabaja
-otras marcas, se cambia el campo "marca" en el array
-ANUNCIOS dentro de index.html.
+su ubicacion: datos.js se carga de forma relativa y lo unico
+externo es la tipografia de Google Fonts.
 
 
 El README.md es documentacion para el equipo. Si no lo

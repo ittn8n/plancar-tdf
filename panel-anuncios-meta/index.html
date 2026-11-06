@@ -3,28 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campañas · Reportes comerciales · Plan Car TDF</title>
+<title>Campañas · Reportes comerciales · Plan Car</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    /* Marca Plan Car (misma paleta que la landing) */
-    --blue:      #001E62;
-    --blue-mid:  #0047BB;
-    /* Color de dato: paso claro del mismo azul, para que contraste sobre fondo oscuro */
     --data:      #4E9BF5;
     --data-soft: rgba(78,155,245,0.16);
-
     --bg:      #0D0F12;
     --surface: #141A22;
     --raised:  #1B222C;
     --line:    rgba(255,255,255,0.08);
     --line-2:  rgba(255,255,255,0.14);
-
     --ink:     #E8EBF0;
     --ink-2:   #8A93A3;
     --ink-3:   #5E6878;
-
     --good:    #37C978;
     --warn:    #E8B23A;
     --bad:     #FF6B4A;
@@ -32,53 +25,40 @@
   body {
     font-family: 'Barlow', system-ui, sans-serif;
     background: var(--bg); color: var(--ink);
-    -webkit-font-smoothing: antialiased;
-    padding: 1.75rem;
+    -webkit-font-smoothing: antialiased; padding: 1.75rem;
   }
   .wrap { max-width: 1180px; margin: 0 auto; }
 
-  /* ───────── Encabezado ───────── */
   .head { margin-bottom: 1.1rem; }
   .crumb {
     font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.4rem;
   }
   .crumb b { color: var(--data); font-weight: 600; }
-  h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.9rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1;
-  }
+  h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.9rem; font-weight: 700; line-height: 1; }
   .sub { font-size: 0.8rem; color: var(--ink-3); margin-top: 0.35rem; }
 
-  /* ───────── Filtros: una sola fila arriba de los gráficos ───────── */
   .filterbar {
-    display: flex; align-items: center; gap: 1.1rem;
-    flex-wrap: wrap; margin-bottom: 1rem;
-    padding: 0.8rem 1rem; background: var(--surface);
+    display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap;
+    margin-bottom: 1rem; padding: 0.8rem 1rem; background: var(--surface);
     border: 1px solid var(--line); border-radius: 12px;
   }
   .fgroup { display: flex; align-items: center; gap: 0.5rem; }
-  .flabel {
-    font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--ink-3);
-  }
+  .flabel { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
   .chips { display: flex; gap: 0.35rem; flex-wrap: wrap; }
   .chips button {
     font-family: 'Barlow', sans-serif; font-size: 0.79rem; font-weight: 500;
     background: var(--raised); color: var(--ink-2);
     border: 1px solid var(--line); border-radius: 7px;
-    padding: 0.4rem 0.78rem; cursor: pointer; transition: all 0.15s;
-    white-space: nowrap;
+    padding: 0.4rem 0.78rem; cursor: pointer; transition: all 0.15s; white-space: nowrap;
   }
   .chips button:hover { color: var(--ink); border-color: var(--line-2); }
   .chips button[aria-pressed="true"] {
-    background: var(--data-soft); color: var(--data);
-    border-color: rgba(78,155,245,0.4);
+    background: var(--data-soft); color: var(--data); border-color: rgba(78,155,245,0.4);
   }
   .fspacer { flex: 1; }
   .fstamp { font-size: 0.73rem; color: var(--ink-3); white-space: nowrap; }
 
-  /* ───────── Tarjetas ───────── */
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
   .card-head {
     padding: 0.95rem 1.15rem; border-bottom: 1px solid var(--line);
@@ -87,27 +67,26 @@
   .card-title { font-size: 0.93rem; font-weight: 600; }
   .card-note  { font-size: 0.74rem; color: var(--ink-3); }
 
-  /* ───────── KPIs ───────── */
   .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; margin-bottom: 0.85rem; }
   .kpi { padding: 1.15rem 1.25rem; }
   .kpi.lead { background: linear-gradient(160deg, rgba(78,155,245,0.10), transparent 70%); }
   .kpi-k {
     font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
     text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.3rem;
   }
-  .kpi-v {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 2.3rem; font-weight: 700; line-height: 0.95; letter-spacing: 0.01em;
-  }
+  .kpi-v { font-family: 'Barlow Condensed', sans-serif; font-size: 2.3rem; font-weight: 700; line-height: 0.95; }
   .kpi.lead .kpi-v { color: var(--data); }
-  .kpi-f {
-    display: flex; align-items: center; gap: 0.35rem;
-    font-size: 0.76rem; color: var(--ink-3); margin-top: 0.55rem;
-  }
+  .kpi-f { display: flex; align-items: center; gap: 0.35rem; font-size: 0.76rem; color: var(--ink-3); margin-top: 0.55rem; }
   .delta { font-weight: 600; }
   .delta.up { color: var(--good); } .delta.down { color: var(--bad); } .delta.flat { color: var(--ink-3); }
 
-  /* ───────── Gráfico ───────── */
+  .mark {
+    display: inline-grid; place-items: center; width: 14px; height: 14px; border-radius: 50%;
+    background: rgba(232,178,58,0.18); color: var(--warn);
+    font-size: 0.6rem; font-weight: 700; cursor: help; border: 1px solid rgba(232,178,58,0.4);
+  }
+
   .chart-wrap { padding: 1.1rem 1.15rem 0.5rem; position: relative; }
   svg { display: block; width: 100%; height: 220px; overflow: visible; }
   .grid-line { stroke: rgba(255,255,255,0.055); stroke-width: 1; }
@@ -133,12 +112,11 @@
   .tip-v { font-weight: 600; display: flex; align-items: center; gap: 0.35rem; }
   .swatch { width: 8px; height: 8px; border-radius: 2px; background: var(--data); flex: 0 0 8px; }
 
-  /* ───────── Tabla ───────── */
   table { width: 100%; border-collapse: collapse; }
   thead th {
-    font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--ink-3); text-align: right;
-    padding: 0.7rem 1.15rem; border-bottom: 1px solid var(--line); white-space: nowrap;
+    font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-3); text-align: right; padding: 0.7rem 1.15rem;
+    border-bottom: 1px solid var(--line); white-space: nowrap;
   }
   thead th:first-child { text-align: left; }
   tbody td {
@@ -146,30 +124,29 @@
     font-size: 0.87rem; text-align: right; font-variant-numeric: tabular-nums;
   }
   tbody tr:last-child td { border-bottom: none; }
-  tbody tr { transition: background 0.12s; }
   tbody tr:hover { background: rgba(255,255,255,0.025); }
   td.name { text-align: left; }
   .ad-name { font-weight: 500; }
   .ad-meta { font-size: 0.72rem; color: var(--ink-3); margin-top: 0.15rem; }
   .marca-tag {
-    display: inline-block; font-size: 0.66rem; font-weight: 600;
-    color: var(--ink-2); background: var(--raised);
-    border: 1px solid var(--line); border-radius: 4px;
+    display: inline-block; font-size: 0.66rem; font-weight: 600; color: var(--ink-2);
+    background: var(--raised); border: 1px solid var(--line); border-radius: 4px;
     padding: 0.08rem 0.38rem; margin-right: 0.35rem; vertical-align: 1px;
   }
+  .tipo-tag { font-size: 0.66rem; color: var(--ink-3); }
 
   .state { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 600; }
   .state::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .state.activo  { color: var(--good); }
-  .state.pausado { color: var(--warn); }
+  .state.activa { color: var(--good); }
+  .state.sin    { color: var(--ink-3); }
 
   .barcell { width: 150px; }
   .bar-track { background: rgba(255,255,255,0.05); border-radius: 4px; height: 10px; width: 100%; }
   .bar-fill { height: 10px; background: var(--data); border-radius: 0 4px 4px 0; width: 0; transition: width 0.5s cubic-bezier(.2,.8,.2,1); }
 
   tfoot td {
-    padding: 0.8rem 1.15rem; font-size: 0.87rem; font-weight: 600;
-    text-align: right; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums;
+    padding: 0.8rem 1.15rem; font-size: 0.87rem; font-weight: 600; text-align: right;
+    border-top: 1px solid var(--line); font-variant-numeric: tabular-nums;
   }
   tfoot td:first-child { text-align: left; color: var(--ink-2); }
   .vacio { padding: 2rem 1.15rem; text-align: center; color: var(--ink-3); font-size: 0.85rem; }
@@ -183,8 +160,9 @@
   .datatable.on { display: block; }
   .datatable table td, .datatable table th { padding: 0.4rem 0.5rem; font-size: 0.78rem; }
 
-  .foot { margin-top: 0.85rem; padding: 0.9rem 1.15rem; font-size: 0.76rem; color: var(--ink-3); line-height: 1.6; }
+  .foot { margin-top: 0.85rem; padding: 0.9rem 1.15rem; font-size: 0.76rem; color: var(--ink-3); line-height: 1.65; }
   .foot b { color: var(--ink-2); font-weight: 600; }
+  .foot .aviso { color: var(--warn); font-weight: 600; }
   .grid-2 { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
 
   @media (max-width: 900px) {
@@ -208,7 +186,6 @@
     <div class="sub" id="sub">—</div>
   </div>
 
-  <!-- Filtros -->
   <div class="filterbar">
     <div class="fgroup">
       <span class="flabel">Marca</span>
@@ -223,15 +200,14 @@
       </div>
     </div>
     <div class="fspacer"></div>
-    <div class="fstamp">Actualizado hace 12 min</div>
+    <div class="fstamp" id="stamp">—</div>
   </div>
 
-  <!-- KPIs -->
   <div class="kpis">
     <div class="card kpi lead">
-      <div class="kpi-k">Alcance</div>
-      <div class="kpi-v" id="kpiReach">—</div>
-      <div class="kpi-f"><span class="delta" id="dReach">—</span> vs. período anterior</div>
+      <div class="kpi-k">Impresiones <span class="mark" title="La base guarda impresiones, no alcance. Alcance son personas únicas; impresiones son veces que se mostró el anuncio. Para tener alcance hay que sumar el campo reach al sync de Meta.">!</span></div>
+      <div class="kpi-v" id="kpiImpr">—</div>
+      <div class="kpi-f"><span class="delta" id="dImpr">—</span> vs. período anterior</div>
     </div>
     <div class="card kpi lead">
       <div class="kpi-k">Leads</div>
@@ -256,7 +232,7 @@
       <div class="card-head">
         <div>
           <div class="card-title">Leads por día</div>
-          <div class="card-note" id="chartNote">Consultas que llegaron desde los anuncios</div>
+          <div class="card-note" id="chartNote">Consultas por WhatsApp más formularios completados</div>
         </div>
         <button class="link-btn" id="toggleData" aria-expanded="false">Ver datos</button>
       </div>
@@ -270,7 +246,7 @@
     <div class="card">
       <div class="card-head">
         <div>
-          <div class="card-title">Por anuncio</div>
+          <div class="card-title">Por campaña</div>
           <div class="card-note">Ordenado por leads generados</div>
         </div>
       </div>
@@ -279,119 +255,69 @@
 
   </div>
 
-  <div class="card foot">
-    <b>Datos de muestra.</b> Alcance, inversión y costo por lead salen directo de la API de Meta.
-    Los leads se cuentan de nuestro lado: cuando alguien escribe por WhatsApp desde un anuncio,
-    el mensaje trae el id del anuncio y ahí se enlaza con la conversación.
-    Ver <b>README.md</b> para el detalle de la conexión real.
-  </div>
+  <div class="card foot" id="footNota"></div>
 
 </div>
 
+<script src="datos.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════
-   DATOS DE MUESTRA
-   En producción el backend devuelve esto ya agregado (ver README).
-   `marca` es el campo que alimenta el filtro de marca: si Plan Car
-   trabaja otras terminales, se cambian acá y el filtro se arma solo.
+   Panel de campañas de Meta.
+   Los datos vienen de datos.js, que es un snapshot de la tabla
+   public."PlanCar_MetaMetrics". Ver README.md para ponerlo en vivo.
+
+   Un "lead" acá es contactos + leads_form:
+     contactos  = conversaciones de WhatsApp iniciadas desde el anuncio
+     leads_form = formularios nativos de Meta completados
    ══════════════════════════════════════════════════════════════ */
-const HOY = new Date(2026, 10, 6);   /* 6/11/2026 */
-const DIAS_DATOS = 60;               /* alcanza para comparar 30 vs 30 */
+const D = window.META_DATOS;
+const $ = (s) => document.querySelector(s);
+const nf = new Intl.NumberFormat('es-AR');
+const money = (n) => '$' + nf.format(Math.round(n));
 
-const ANUNCIOS = [
-  { id: '238...401', nombre: 'Plan Flex — Río Grande',       campania: 'TDF-FLEX-NOV', marca: 'Volkswagen', estado: 'activo',
-    base: { alcance: 1060, leads: 1.75, gasto: 6180 }, semilla: 11 },
-  { id: '238...402', nombre: '0km sin interés — TDF',        campania: 'TDF-0KM-NOV',  marca: 'Volkswagen', estado: 'activo',
-    base: { alcance: 810,  leads: 1.35, gasto: 5090 }, semilla: 22 },
-  { id: '238...403', nombre: 'Plan Clásico — Ushuaia',       campania: 'TDF-CLAS-NOV', marca: 'Volkswagen', estado: 'activo',
-    base: { alcance: 690,  leads: 1.00, gasto: 3490 }, semilla: 33 },
-  { id: '238...404', nombre: 'Cronos — Plan de ahorro',      campania: 'TDF-CRON-OCT', marca: 'Fiat',       estado: 'pausado',
-    base: { alcance: 570,  leads: 0.86, gasto: 2830 }, semilla: 44, pausadoHace: 9 },
-  { id: '238...405', nombre: 'Onix — Cuota fija 12 meses',   campania: 'TDF-ONIX-NOV', marca: 'Chevrolet',  estado: 'activo',
-    base: { alcance: 640,  leads: 0.95, gasto: 3120 }, semilla: 55 },
-  { id: '238...406', nombre: 'Retargeting — visitantes web', campania: 'TDF-RETG-NOV', marca: 'Volkswagen', estado: 'activo',
-    base: { alcance: 330,  leads: 0.58, gasto: 1230 }, semilla: 66 }
-];
+/* ── Normalización del snapshot ── */
+const CAMPANIAS = D.campanias.map(([idx, nombre, marca]) => ({
+  idx, nombre, marca,
+  /* Las campañas con formulario llevan Form en el nombre */
+  tipo: /form/i.test(nombre) ? 'Formulario' : 'WhatsApp'
+}));
+const POR_IDX = Object.fromEntries(CAMPANIAS.map(c => [c.idx, c]));
 
-/* ── Generador determinista: mismos números en cada carga ── */
-function rng(semilla) {
-  let a = semilla >>> 0;
-  return function () {
-    a = (a + 0x6D2B79F5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-/* Fin de semana rinde menos; es lo que se ve en las campañas reales */
-const FACTOR_DIA = [0.72, 1.08, 1.12, 1.05, 1.0, 1.1, 0.78];
+const FILAS = D.filas.map(([ci, fecha, gasto, impresiones, clicks, contactos, leadsForm]) => ({
+  ci, fecha, gasto, impresiones, clicks,
+  leads: contactos + leadsForm
+}));
 
-/* Para cada anuncio, DIAS_DATOS jornadas: índice 0 = el más viejo */
-function generarDias(ad) {
-  const r = rng(ad.semilla);
-  const out = [];
-  for (let i = 0; i < DIAS_DATOS; i++) {
-    const fecha = new Date(HOY);
-    fecha.setDate(HOY.getDate() - (DIAS_DATOS - 1 - i));
-    const diasAtras = DIAS_DATOS - 1 - i;
+/* Días presentes en el snapshot, del más viejo al más nuevo */
+const DIAS = [...new Set(FILAS.map(f => f.fecha))].sort();
+const MARCAS = ['Todas', ...[...new Set(CAMPANIAS.map(c => c.marca))].sort()];
 
-    /* Un anuncio pausado deja de gastar y de traer consultas */
-    if (ad.pausadoHace != null && diasAtras < ad.pausadoHace) {
-      out.push({ fecha, alcance: 0, leads: 0, gasto: 0 });
-      continue;
-    }
-    const f = FACTOR_DIA[fecha.getDay()];
-    const ruido = 0.62 + r() * 0.78;
-    const tendencia = 0.78 + (i / DIAS_DATOS) * 0.50;   /* las campañas vienen mejorando */
-    out.push({
-      fecha,
-      alcance: Math.round(ad.base.alcance * f * ruido * tendencia),
-      leads:   Math.round(ad.base.leads   * f * (0.45 + r() * 1.25) * tendencia),
-      gasto:   Math.round(ad.base.gasto   * f * (0.85 + r() * 0.3))
-    });
-  }
-  return out;
-}
-ANUNCIOS.forEach(a => { a.dias = generarDias(a); });
-
-/* ══════════════════════════════════════════════════════════════
-   ESTADO DE LOS FILTROS
-   ══════════════════════════════════════════════════════════════ */
 let filtroMarca = 'Todas';
 let rango = 14;
 
-const MARCAS = ['Todas', ...[...new Set(ANUNCIOS.map(a => a.marca))].sort()];
-
-const nf = new Intl.NumberFormat('es-AR');
-const money = (n) => '$' + nf.format(Math.round(n));
-const $ = (s) => document.querySelector(s);
-
-/* Anuncios que pasan el filtro de marca */
-function anunciosFiltrados() {
-  return filtroMarca === 'Todas' ? ANUNCIOS : ANUNCIOS.filter(a => a.marca === filtroMarca);
+/* ── Agregación ── */
+function ventana(n, desplazar) {
+  /* Devuelve el conjunto de fechas de la ventana pedida.
+     desplazar = true toma la ventana inmediatamente anterior. */
+  const fin = DIAS.length - (desplazar ? n : 0);
+  const ini = Math.max(0, fin - n);
+  return new Set(DIAS.slice(ini, fin));
+}
+function pasaMarca(ci) {
+  return filtroMarca === 'Todas' || POR_IDX[ci].marca === filtroMarca;
+}
+function totales(fechas) {
+  return FILAS.reduce((a, f) => {
+    if (!fechas.has(f.fecha) || !pasaMarca(f.ci)) return a;
+    a.impresiones += f.impresiones; a.leads += f.leads; a.gasto += f.gasto; a.clicks += f.clicks;
+    return a;
+  }, { impresiones: 0, leads: 0, gasto: 0, clicks: 0 });
 }
 
-/* Suma de un anuncio entre dos índices de día [desde, hasta) */
-function sumar(ad, desde, hasta) {
-  let alcance = 0, leads = 0, gasto = 0;
-  for (let i = desde; i < hasta; i++) {
-    alcance += ad.dias[i].alcance;
-    leads   += ad.dias[i].leads;
-    gasto   += ad.dias[i].gasto;
-  }
-  return { alcance, leads, gasto };
+function variacion(ahora, antes) {
+  if (!antes) return null;
+  return Math.round(((ahora - antes) / antes) * 100);
 }
-function totales(ads, desde, hasta) {
-  return ads.reduce((acc, ad) => {
-    const s = sumar(ad, desde, hasta);
-    acc.alcance += s.alcance; acc.leads += s.leads; acc.gasto += s.gasto;
-    return acc;
-  }, { alcance: 0, leads: 0, gasto: 0 });
-}
-
-/* ══════════════════════════════════════════════════════════════
-   KPIs
-   ══════════════════════════════════════════════════════════════ */
 function pintarDelta(el, pct, menosEsMejor) {
   if (pct === null) { el.textContent = 's/d'; el.className = 'delta flat'; return; }
   const sube = pct > 0;
@@ -399,85 +325,89 @@ function pintarDelta(el, pct, menosEsMejor) {
   el.textContent = (sube ? '▲ ' : pct < 0 ? '▼ ' : '– ') + Math.abs(pct) + '%';
   el.className = 'delta ' + (pct === 0 ? 'flat' : bueno ? 'up' : 'down');
 }
-function variacion(ahora, antes) {
-  if (!antes) return null;
-  return Math.round(((ahora - antes) / antes) * 100);
-}
 
+/* ── KPIs ── */
 function pintarKpis() {
-  const ads = anunciosFiltrados();
-  const finAhora   = DIAS_DATOS;
-  const iniAhora   = DIAS_DATOS - rango;
-  const iniAntes   = Math.max(0, iniAhora - rango);
-
-  const act = totales(ads, iniAhora, finAhora);
-  const ant = totales(ads, iniAntes, iniAhora);
-
+  const act = totales(ventana(rango, false));
+  const ant = totales(ventana(rango, true));
   const cplAct = act.leads ? act.gasto / act.leads : 0;
   const cplAnt = ant.leads ? ant.gasto / ant.leads : 0;
 
-  $('#kpiReach').textContent = nf.format(act.alcance);
+  $('#kpiImpr').textContent  = nf.format(act.impresiones);
   $('#kpiLeads').textContent = nf.format(act.leads);
   $('#kpiCpl').textContent   = act.leads ? money(cplAct) : '—';
   $('#kpiSpend').textContent = money(act.gasto);
 
-  pintarDelta($('#dReach'), variacion(act.alcance, ant.alcance), false);
-  pintarDelta($('#dLeads'), variacion(act.leads,   ant.leads),   false);
+  pintarDelta($('#dImpr'),  variacion(act.impresiones, ant.impresiones), false);
+  pintarDelta($('#dLeads'), variacion(act.leads, ant.leads), false);
   pintarDelta($('#dCpl'),   cplAnt ? variacion(cplAct, cplAnt) : null, true);
 
-  const activos = ads.filter(a => a.estado === 'activo').length;
-  $('#dSpend').textContent = activos + (activos === 1 ? ' anuncio activo' : ' anuncios activos');
+  const activas = campaniasDelPeriodo().filter(c => c.gasto > 0).length;
+  $('#dSpend').textContent = activas + (activas === 1 ? ' campaña con actividad' : ' campañas con actividad');
 
   $('#sub').textContent =
-    `Últimos ${rango} días · ${filtroMarca === 'Todas' ? 'todas las marcas' : filtroMarca} · ${ads.length} ${ads.length === 1 ? 'anuncio' : 'anuncios'}`;
+    `Últimos ${rango} días · ${filtroMarca === 'Todas' ? 'todas las marcas' : filtroMarca}`;
   $('#chartNote').textContent = filtroMarca === 'Todas'
-    ? 'Consultas que llegaron desde los anuncios'
-    : `Consultas de los anuncios de ${filtroMarca}`;
+    ? 'Consultas por WhatsApp más formularios completados'
+    : `Consultas y formularios de ${filtroMarca}`;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   TABLA POR ANUNCIO
-   ══════════════════════════════════════════════════════════════ */
-function pintarAnuncios() {
-  const ads = anunciosFiltrados();
-  const iniAhora = DIAS_DATOS - rango;
-  const filas = ads
-    .map(a => ({ ad: a, ...sumar(a, iniAhora, DIAS_DATOS) }))
-    .sort((x, y) => y.leads - x.leads);
+/* ── Tabla por campaña ── */
+function campaniasDelPeriodo() {
+  const fechas = ventana(rango, false);
+  const acc = {};
+  CAMPANIAS.forEach(c => {
+    if (!pasaMarca(c.idx)) return;
+    acc[c.idx] = { camp: c, impresiones: 0, leads: 0, gasto: 0 };
+  });
+  FILAS.forEach(f => {
+    if (!fechas.has(f.fecha) || !acc[f.ci]) return;
+    acc[f.ci].impresiones += f.impresiones;
+    acc[f.ci].leads += f.leads;
+    acc[f.ci].gasto += f.gasto;
+  });
+  return Object.values(acc).sort((a, b) => b.leads - a.leads || b.gasto - a.gasto);
+}
 
+function pintarTabla() {
+  const filas = campaniasDelPeriodo();
   const host = $('#tablaHost');
   if (!filas.length) {
-    host.innerHTML = '<div class="vacio">No hay anuncios para esta marca en el período elegido.</div>';
+    host.innerHTML = '<div class="vacio">No hay campañas para esta marca.</div>';
     return;
   }
   const max = Math.max(...filas.map(f => f.leads), 1);
 
-  const cuerpo = filas.map(f => `
+  const cuerpo = filas.map(f => {
+    const activa = f.gasto > 0;
+    return `
     <tr>
       <td class="name">
-        <div class="ad-name">${f.ad.nombre}</div>
-        <div class="ad-meta"><span class="marca-tag">${f.ad.marca}</span>${f.ad.campania}</div>
+        <div class="ad-name">${f.camp.nombre}</div>
+        <div class="ad-meta"><span class="marca-tag">${f.camp.marca}</span><span class="tipo-tag">${f.camp.tipo}</span></div>
       </td>
-      <td class="hide-sm"><span class="state ${f.ad.estado}">${f.ad.estado === 'activo' ? 'Activo' : 'Pausado'}</span></td>
-      <td>${nf.format(f.alcance)}</td>
+      <td class="hide-sm"><span class="state ${activa ? 'activa' : 'sin'}">${activa ? 'Activa' : 'Sin actividad'}</span></td>
+      <td>${nf.format(f.impresiones)}</td>
       <td><b>${f.leads}</b></td>
-      <td class="barcell"><div class="bar-track"><div class="bar-fill" data-w="${(f.leads / max * 100)}"></div></div></td>
+      <td class="barcell"><div class="bar-track"><div class="bar-fill" data-w="${f.leads / max * 100}"></div></div></td>
       <td class="hide-sm">${f.leads ? money(f.gasto / f.leads) : '—'}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 
-  const t = filas.reduce((a, f) => ({ alcance: a.alcance + f.alcance, leads: a.leads + f.leads, gasto: a.gasto + f.gasto }),
-                         { alcance: 0, leads: 0, gasto: 0 });
+  const t = filas.reduce((a, f) => ({
+    impresiones: a.impresiones + f.impresiones, leads: a.leads + f.leads, gasto: a.gasto + f.gasto
+  }), { impresiones: 0, leads: 0, gasto: 0 });
 
   host.innerHTML = `
     <table>
       <thead><tr>
-        <th>Anuncio</th><th class="hide-sm">Estado</th><th>Alcance</th><th>Leads</th>
+        <th>Campaña</th><th class="hide-sm">Estado</th><th>Impresiones</th><th>Leads</th>
         <th class="barcell"></th><th class="hide-sm">Costo/lead</th>
       </tr></thead>
       <tbody>${cuerpo}</tbody>
       <tfoot><tr>
         <td>Total</td><td class="hide-sm"></td>
-        <td>${nf.format(t.alcance)}</td><td>${t.leads}</td>
+        <td>${nf.format(t.impresiones)}</td><td>${t.leads}</td>
         <td class="barcell"></td><td class="hide-sm">${t.leads ? money(t.gasto / t.leads) : '—'}</td>
       </tr></tfoot>
     </table>`;
@@ -487,26 +417,22 @@ function pintarAnuncios() {
   });
 }
 
-/* ══════════════════════════════════════════════════════════════
-   GRÁFICO — una sola serie, sin leyenda (el título la nombra)
-   ══════════════════════════════════════════════════════════════ */
+/* ── Gráfico: una sola serie, sin leyenda (el título la nombra) ── */
 const H = 220, M = { t: 18, r: 14, b: 26, l: 34 };
 let W = 860;
-
 const NOMBRE_DIA = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
-const fmtDia = (d) => `${NOMBRE_DIA[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`;
+function comoFecha(iso) { const [a, m, d] = iso.split('-').map(Number); return new Date(a, m - 1, d); }
+function fmtDia(iso) { const d = comoFecha(iso); return `${NOMBRE_DIA[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`; }
+function fmtCorto(iso) { const d = comoFecha(iso); return `${d.getDate()}/${d.getMonth() + 1}`; }
 
-function serieActual() {
-  const ads = anunciosFiltrados();
-  const ini = DIAS_DATOS - rango;
-  const out = [];
-  for (let i = ini; i < DIAS_DATOS; i++) {
-    out.push({
-      fecha: ANUNCIOS[0].dias[i].fecha,
-      valor: ads.reduce((s, a) => s + a.dias[i].leads, 0)
-    });
-  }
-  return out;
+function serie() {
+  const fechas = [...ventana(rango, false)].sort();
+  const porFecha = Object.fromEntries(fechas.map(f => [f, 0]));
+  FILAS.forEach(f => {
+    if (porFecha[f.fecha] === undefined || !pasaMarca(f.ci)) return;
+    porFecha[f.fecha] += f.leads;
+  });
+  return fechas.map(f => ({ fecha: f, valor: porFecha[f] }));
 }
 
 function dibujar() {
@@ -514,18 +440,18 @@ function dibujar() {
   W = Math.max(360, Math.round(svg.getBoundingClientRect().width) || 860);
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
-  const serie = serieActual();
-  const vals = serie.map(p => p.valor);
-  const max = Math.max(...vals);
+  const s0 = serie();
+  const vals = s0.map(p => p.valor);
+  const max = Math.max(...vals, 0);
 
-  if (!serie.length || max === 0) {
+  if (!s0.length || max === 0) {
     svg.innerHTML = `<text class="empty-txt" x="${W / 2}" y="${H / 2}">Sin leads en el período elegido</text>`;
     $('#dataTable').innerHTML = '';
     return;
   }
 
   const top = Math.max(2, Math.ceil((max * 1.25) / 2) * 2);
-  const x = (i) => M.l + (i / Math.max(1, serie.length - 1)) * (W - M.l - M.r);
+  const x = (i) => M.l + (i / Math.max(1, s0.length - 1)) * (W - M.l - M.r);
   const y = (v) => M.t + (1 - v / top) * (H - M.t - M.b);
 
   let s = `<defs><linearGradient id="fadeBlue" x1="0" y1="0" x2="0" y2="1">
@@ -533,51 +459,48 @@ function dibujar() {
       <stop offset="100%" stop-color="#4E9BF5" stop-opacity="0"/>
     </linearGradient></defs>`;
 
-  const pasos = 4;
-  for (let i = 0; i <= pasos; i++) {
-    const v = (top / pasos) * i, yy = y(v);
+  for (let i = 0; i <= 4; i++) {
+    const v = (top / 4) * i, yy = y(v);
     s += `<line class="grid-line" x1="${M.l}" y1="${yy}" x2="${W - M.r}" y2="${yy}"/>`;
     s += `<text class="axis-txt" x="${M.l - 9}" y="${yy + 4}" text-anchor="end">${Math.round(v)}</text>`;
   }
 
-  const pts = serie.map((p, i) => [x(i), y(p.valor)]);
-  s += `<path class="area" d="M${pts.map(p => p.join(',')).join(' L')} L${x(serie.length - 1)},${y(0)} L${x(0)},${y(0)} Z"/>`;
+  const pts = s0.map((p, i) => [x(i), y(p.valor)]);
+  s += `<path class="area" d="M${pts.map(p => p.join(',')).join(' L')} L${x(s0.length - 1)},${y(0)} L${x(0)},${y(0)} Z"/>`;
   s += `<path class="series" d="M${pts.map(p => p.join(',')).join(' L')}"/>`;
 
-  const salto = Math.ceil(serie.length / 7);
-  serie.forEach((p, i) => {
-    if (i % salto === 0 || i === serie.length - 1) {
-      s += `<text class="axis-txt" x="${x(i)}" y="${H - 6}" text-anchor="middle">${p.fecha.getDate()}/${p.fecha.getMonth() + 1}</text>`;
+  const salto = Math.ceil(s0.length / 7);
+  s0.forEach((p, i) => {
+    if (i % salto === 0 || i === s0.length - 1) {
+      s += `<text class="axis-txt" x="${x(i)}" y="${H - 6}" text-anchor="middle">${fmtCorto(p.fecha)}</text>`;
     }
   });
 
   const iMax = vals.indexOf(max);
   s += `<text class="peak-label" x="${x(iMax)}" y="${y(max) - 12}">${max}</text>`;
-
   s += `<line class="crosshair" id="cross" x1="0" y1="${M.t}" x2="0" y2="${H - M.b}" style="opacity:0"/>`;
-  serie.forEach((p, i) => { s += `<circle class="dot" id="dot-${i}" cx="${x(i)}" cy="${y(p.valor)}" r="4.5"/>`; });
+  s0.forEach((p, i) => { s += `<circle class="dot" id="dot-${i}" cx="${x(i)}" cy="${y(p.valor)}" r="4.5"/>`; });
 
-  const ancho = (W - M.l - M.r) / Math.max(1, serie.length - 1);
-  serie.forEach((p, i) => {
+  const ancho = (W - M.l - M.r) / Math.max(1, s0.length - 1);
+  s0.forEach((p, i) => {
     s += `<rect class="dot-hit" x="${x(i) - ancho / 2}" y="${M.t}" width="${ancho}" height="${H - M.t - M.b}"
             data-i="${i}" data-v="${p.valor}" data-d="${fmtDia(p.fecha)}"/>`;
   });
 
   svg.innerHTML = s;
-  engancharHover(svg, serie, x, y);
-  pintarDatos(serie);
+  engancharHover(svg, s0, x, y);
+  pintarDatos(s0);
 }
 
-function engancharHover(svg, serie, x, y) {
+function engancharHover(svg, s0, x, y) {
   const tip = $('#tip'), cross = svg.querySelector('#cross'), wrap = svg.parentElement;
   svg.querySelectorAll('.dot-hit').forEach((r) => {
     r.addEventListener('mouseenter', () => {
-      const i = +r.dataset.i, px = x(i), py = y(serie[i].valor);
+      const i = +r.dataset.i, px = x(i), py = y(s0[i].valor);
       cross.setAttribute('x1', px); cross.setAttribute('x2', px);
       cross.style.opacity = 1;
       svg.querySelectorAll('.dot').forEach(d => d.classList.remove('on'));
       svg.querySelector('#dot-' + i).classList.add('on');
-
       const rs = svg.getBoundingClientRect(), rw = wrap.getBoundingClientRect();
       tip.style.left = (rs.left - rw.left + px / W * rs.width) + 'px';
       tip.style.top  = (rs.top  - rw.top  + py / H * rs.height) + 'px';
@@ -593,17 +516,14 @@ function engancharHover(svg, serie, x, y) {
   });
 }
 
-/* Vista de tabla del gráfico (accesibilidad) */
-function pintarDatos(serie) {
-  const filas = serie.map(p => `<tr><td style="text-align:left">${fmtDia(p.fecha)}</td><td>${p.valor}</td></tr>`).join('');
+function pintarDatos(s0) {
+  const filas = s0.map(p => `<tr><td style="text-align:left">${fmtDia(p.fecha)}</td><td>${p.valor}</td></tr>`).join('');
   $('#dataTable').innerHTML =
     `<table><thead><tr><th>Día</th><th>Leads</th></tr></thead><tbody>${filas}</tbody></table>`;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FILTROS Y ARRANQUE
-   ══════════════════════════════════════════════════════════════ */
-function refrescar() { pintarKpis(); pintarAnuncios(); dibujar(); }
+/* ── Filtros ── */
+function refrescar() { pintarKpis(); pintarTabla(); dibujar(); }
 
 function montarMarcas() {
   const cont = $('#fMarca');
@@ -636,14 +556,20 @@ $('#toggleData').addEventListener('click', (e) => {
   e.target.setAttribute('aria-expanded', String(on));
 });
 
+$('#stamp').textContent = 'Datos al ' + fmtCorto(D.generado) + '/' + comoFecha(D.generado).getFullYear();
+$('#footNota').innerHTML =
+  `<b>Datos reales</b> de <b>PlanCar_MetaMetrics</b>, snapshot del ${fmtCorto(D.generado)}. ` +
+  `Un lead es una conversación de WhatsApp iniciada desde el anuncio más un formulario completado. ` +
+  `<span class="aviso">Dos cosas a revisar:</span> la base guarda <b>impresiones</b>, no alcance — ` +
+  `para tener alcance hay que sumar el campo <b>reach</b> al sync de Meta. Y la campaña ` +
+  `<b>Paugeot_Test_Drive_Form</b> figura como Citroën por el error de tipeo en el nombre. ` +
+  `Detalle en README.md.`;
+
 montarMarcas();
 refrescar();
 
 let reTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(reTimer);
-  reTimer = setTimeout(dibujar, 120);
-});
+window.addEventListener('resize', () => { clearTimeout(reTimer); reTimer = setTimeout(dibujar, 120); });
 </script>
 </body>
 </html>
