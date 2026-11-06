@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anuncios de Meta · Panel Plan Car TDF</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    /* Marca Plan Car (misma paleta que la landing) */
+    --blue:      #001E62;
+    --blue-mid:  #0047BB;
+    /* Color de dato: paso claro del mismo azul, para que contraste sobre fondo oscuro */
+    --data:      #4E9BF5;
+    --data-soft: rgba(78,155,245,0.16);
+
+    --bg:      #0D0F12;
+    --surface: #141A22;
+    --raised:  #1B222C;
+    --line:    rgba(255,255,255,0.08);
+    --line-2:  rgba(255,255,255,0.14);
+
+    --ink:     #E8EBF0;
+    --ink-2:   #8A93A3;
+    --ink-3:   #5E6878;
+
+    --good:    #37C978;
+    --warn:    #E8B23A;
+    --bad:     #FF6B4A;
+  }
+  body {
+    font-family: 'Barlow', system-ui, sans-serif;
+    background: var(--bg); color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    padding: 1.75rem;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  /* ───────── Encabezado de sección ───────── */
+  .head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem;
+  }
+  .eyebrow {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--data); margin-bottom: 0.35rem;
+  }
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.9rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1;
+  }
+  .sub { font-size: 0.8rem; color: var(--ink-3); margin-top: 0.35rem; }
+
+  /* Filtros: una sola fila arriba de los gráficos */
+  .filters { display: flex; gap: 0.4rem; }
+  .filters button {
+    font-family: 'Barlow', sans-serif; font-size: 0.8rem; font-weight: 500;
+    background: var(--raised); color: var(--ink-2);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 0.45rem 0.85rem; cursor: pointer; transition: all 0.15s;
+  }
+  .filters button:hover { color: var(--ink); border-color: var(--line-2); }
+  .filters button[aria-pressed="true"] {
+    background: var(--data-soft); color: var(--data);
+    border-color: rgba(78,155,245,0.4);
+  }
+
+  /* ───────── Tarjetas ───────── */
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  }
+  .card-head {
+    padding: 0.95rem 1.15rem; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  }
+  .card-title { font-size: 0.93rem; font-weight: 600; }
+  .card-note  { font-size: 0.74rem; color: var(--ink-3); }
+
+  /* ───────── Fila de KPIs ───────── */
+  .kpis {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem; margin-bottom: 0.85rem;
+  }
+  .kpi { padding: 1.15rem 1.25rem; }
+  .kpi.lead { background: linear-gradient(160deg, rgba(78,155,245,0.10), transparent 70%); }
+  .kpi-k {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.5rem;
+  }
+  .kpi-v {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.3rem; font-weight: 700; line-height: 0.95; letter-spacing: 0.01em;
+  }
+  .kpi.lead .kpi-v { color: var(--data); }
+  .kpi-f {
+    display: flex; align-items: center; gap: 0.35rem;
+    font-size: 0.76rem; color: var(--ink-3); margin-top: 0.55rem;
+  }
+  .delta { font-weight: 600; display: inline-flex; align-items: center; gap: 0.15rem; }
+  .delta.up   { color: var(--good); }
+  .delta.down { color: var(--bad); }
+  .delta.good-down { color: var(--good); }
+
+  /* ───────── Gráfico ───────── */
+  .chart-wrap { padding: 1.1rem 1.15rem 0.5rem; position: relative; }
+  svg { display: block; width: 100%; height: 220px; overflow: visible; }
+  .grid-line { stroke: rgba(255,255,255,0.055); stroke-width: 1; }
+  .axis-txt  { fill: var(--ink-3); font-size: 11px; font-family: 'Barlow', sans-serif; }
+  .series    { fill: none; stroke: var(--data); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .area      { fill: url(#fadeBlue); }
+  .crosshair { stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 3 3; }
+  .dot-hit   { fill: transparent; cursor: pointer; }
+  .dot {
+    fill: var(--data); stroke: var(--surface); stroke-width: 2;
+    opacity: 0; transition: opacity 0.12s;
+  }
+  .dot.on { opacity: 1; }
+  .peak-label {
+    fill: var(--ink); font-size: 11px; font-weight: 600;
+    font-family: 'Barlow', sans-serif; text-anchor: middle;
+  }
+
+  .tip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: #090C10; border: 1px solid var(--line-2); border-radius: 9px;
+    padding: 0.5rem 0.7rem; font-size: 0.78rem; white-space: nowrap;
+    transition: opacity 0.12s; transform: translate(-50%, -115%); z-index: 5;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  }
+  .tip.on { opacity: 1; }
+  .tip-d { color: var(--ink-3); font-size: 0.7rem; margin-bottom: 0.15rem; }
+  .tip-v { font-weight: 600; display: flex; align-items: center; gap: 0.35rem; }
+  .swatch { width: 8px; height: 8px; border-radius: 2px; background: var(--data); flex: 0 0 8px; }
+
+  /* ───────── Tabla por anuncio ───────── */
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); text-align: right;
+    padding: 0.7rem 1.15rem; border-bottom: 1px solid var(--line); white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; }
+  tbody td {
+    padding: 0.8rem 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.87rem; text-align: right; font-variant-numeric: tabular-nums;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.12s; }
+  tbody tr:hover { background: rgba(255,255,255,0.025); }
+  td.name { text-align: left; }
+  .ad-name { font-weight: 500; }
+  .ad-meta { font-size: 0.72rem; color: var(--ink-3); margin-top: 0.15rem; }
+
+  .state {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.72rem; font-weight: 600;
+  }
+  .state::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  }
+  .state.activo  { color: var(--good); }
+  .state.pausado { color: var(--warn); }
+
+  /* Barra de leads: un solo color, extremo redondeado, anclada a la izquierda */
+  .barcell { width: 170px; }
+  .bar-track { background: rgba(255,255,255,0.05); border-radius: 4px; height: 10px; width: 100%; }
+  .bar-fill {
+    height: 10px; background: var(--data);
+    border-radius: 0 4px 4px 0; min-width: 4px;
+    transition: width 0.5s cubic-bezier(.2,.8,.2,1);
+  }
+
+  tfoot td {
+    padding: 0.8rem 1.15rem; font-size: 0.87rem; font-weight: 600;
+    text-align: right; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums;
+  }
+  tfoot td:first-child { text-align: left; color: var(--ink-2); }
+
+  .link-btn {
+    background: none; border: none; color: var(--data); cursor: pointer;
+    font-family: 'Barlow', sans-serif; font-size: 0.74rem; font-weight: 500;
+    padding: 0; text-decoration: underline; text-underline-offset: 2px;
+  }
+
+  .datatable { display: none; padding: 0 1.15rem 1rem; }
+  .datatable.on { display: block; }
+  .datatable table td, .datatable table th { padding: 0.4rem 0.5rem; font-size: 0.78rem; }
+
+  .foot {
+    margin-top: 0.85rem; padding: 0.9rem 1.15rem;
+    font-size: 0.76rem; color: var(--ink-3); line-height: 1.6;
+  }
+  .foot b { color: var(--ink-2); font-weight: 600; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
+
+  @media (max-width: 900px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .barcell { display: none; }
+    th.barcell { display: none; }
+  }
+  @media (max-width: 560px) {
+    body { padding: 1rem; }
+    .kpis { grid-template-columns: 1fr; }
+    .hide-sm { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <div class="eyebrow">Campañas · Meta Ads</div>
+      <h1>Anuncios de Meta</h1>
+      <div class="sub" id="rangeLabel">Últimos 14 días · actualizado hace 12 min</div>
+    </div>
+    <div class="filters" role="group" aria-label="Período">
+      <button data-range="7">7 días</button>
+      <button data-range="14" aria-pressed="true">14 días</button>
+      <button data-range="30">30 días</button>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="card kpi lead">
+      <div class="kpi-k">Alcance</div>
+      <div class="kpi-v" id="kpiReach">—</div>
+      <div class="kpi-f"><span class="delta up" id="dReach">—</span> vs. período anterior</div>
+    </div>
+    <div class="card kpi lead">
+      <div class="kpi-k">Leads</div>
+      <div class="kpi-v" id="kpiLeads">—</div>
+      <div class="kpi-f"><span class="delta up" id="dLeads">—</span> vs. período anterior</div>
+    </div>
+    <div class="card kpi">
+      <div class="kpi-k">Costo por lead</div>
+      <div class="kpi-v" id="kpiCpl">—</div>
+      <div class="kpi-f"><span class="delta good-down" id="dCpl">—</span> vs. período anterior</div>
+    </div>
+    <div class="card kpi">
+      <div class="kpi-k">Inversión</div>
+      <div class="kpi-v" id="kpiSpend">—</div>
+      <div class="kpi-f"><span id="dSpend">—</span></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Serie temporal -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Leads por día</div>
+          <div class="card-note">Consultas que llegaron desde los anuncios</div>
+        </div>
+        <button class="link-btn" id="toggleData" aria-expanded="false">Ver datos</button>
+      </div>
+      <div class="chart-wrap">
+        <svg id="chart" role="img"
+             aria-label="Leads por día en el período seleccionado"></svg>
+        <div class="tip" id="tip"><div class="tip-d"></div><div class="tip-v"><span class="swatch"></span><span></span></div></div>
+      </div>
+      <div class="datatable" id="dataTable"></div>
+    </div>
+
+    <!-- Por anuncio -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Por anuncio</div>
+          <div class="card-note">Ordenado por leads generados</div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Anuncio</th>
+            <th class="hide-sm">Estado</th>
+            <th>Alcance</th>
+            <th>Leads</th>
+            <th class="barcell"></th>
+            <th class="hide-sm">Costo/lead</th>
+          </tr>
+        </thead>
+        <tbody id="adRows"></tbody>
+        <tfoot id="adFoot"></tfoot>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="card foot">
+    <b>Datos de muestra.</b> Alcance, inversión y costo por lead salen directo de la API de Meta.
+    Los leads se cuentan de nuestro lado: cuando alguien escribe por WhatsApp desde un anuncio,
+    el mensaje trae el id del anuncio y ahí se enlaza con la conversación.
+    Ver <b>README.md</b> para el detalle de la conexión real.
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   DATOS DE MUESTRA
+   En producción esto lo devuelve el backend ya agregado.
+   ══════════════════════════════════════════════════════════════ */
+const ANUNCIOS = [
+  { id: '238...401', nombre: 'Plan Flex — Río Grande',        campania: 'TDF-FLEX-NOV',   estado: 'activo',  alcance: 14820, leads: 24, gasto: 86400 },
+  { id: '238...402', nombre: '0km sin interés — TDF',         campania: 'TDF-0KM-NOV',    estado: 'activo',  alcance: 11340, leads: 19, gasto: 71200 },
+  { id: '238...403', nombre: 'Plan Clásico — Ushuaia',        campania: 'TDF-CLAS-NOV',   estado: 'activo',  alcance:  9610, leads: 14, gasto: 48900 },
+  { id: '238...404', nombre: 'Polo Track — Plan de ahorro',   campania: 'TDF-POLO-OCT',   estado: 'pausado', alcance:  7950, leads: 12, gasto: 39600 },
+  { id: '238...405', nombre: 'Retargeting — visitantes web',  campania: 'TDF-RETG-NOV',   estado: 'activo',  alcance:  4600, leads:  8, gasto: 17240 }
+];
+
+/* Leads por día, del más viejo al más nuevo */
+const SERIE_14 = [3, 5, 2, 4, 6, 8, 5, 3, 7, 9, 6, 4, 8, 7];
+
+const DELTAS = { reach: +12, leads: +21, cpl: -7 };
+
+/* ── Formato ── */
+const nf  = new Intl.NumberFormat('es-AR');
+const money = (n) => '$' + nf.format(Math.round(n));
+
+/* ══════════════════════════════════════════════════════════════
+   KPIs
+   ══════════════════════════════════════════════════════════════ */
+function pintarKpis() {
+  const alcance = ANUNCIOS.reduce((a, x) => a + x.alcance, 0);
+  const leads   = ANUNCIOS.reduce((a, x) => a + x.leads, 0);
+  const gasto   = ANUNCIOS.reduce((a, x) => a + x.gasto, 0);
+
+  document.getElementById('kpiReach').textContent  = nf.format(alcance);
+  document.getElementById('kpiLeads').textContent  = nf.format(leads);
+  document.getElementById('kpiCpl').textContent    = money(gasto / leads);
+  document.getElementById('kpiSpend').textContent  = money(gasto);
+
+  document.getElementById('dReach').textContent = '▲ ' + DELTAS.reach + '%';
+  document.getElementById('dLeads').textContent = '▲ ' + DELTAS.leads + '%';
+  document.getElementById('dCpl').textContent   = '▼ ' + Math.abs(DELTAS.cpl) + '%';
+  document.getElementById('dSpend').textContent = ANUNCIOS.filter(a => a.estado === 'activo').length + ' anuncios activos';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TABLA POR ANUNCIO
+   ══════════════════════════════════════════════════════════════ */
+function pintarAnuncios() {
+  const orden = [...ANUNCIOS].sort((a, b) => b.leads - a.leads);
+  const max = Math.max(...orden.map(a => a.leads));
+  const tb = document.getElementById('adRows');
+  tb.innerHTML = '';
+
+  orden.forEach((a) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="name">
+        <div class="ad-name">${a.nombre}</div>
+        <div class="ad-meta">${a.campania}</div>
+      </td>
+      <td class="hide-sm"><span class="state ${a.estado}">${a.estado === 'activo' ? 'Activo' : 'Pausado'}</span></td>
+      <td>${nf.format(a.alcance)}</td>
+      <td><b>${a.leads}</b></td>
+      <td class="barcell">
+        <div class="bar-track"><div class="bar-fill" style="width:0"></div></div>
+      </td>
+      <td class="hide-sm">${money(a.gasto / a.leads)}</td>`;
+    tb.appendChild(tr);
+    /* animación de entrada */
+    requestAnimationFrame(() => {
+      tr.querySelector('.bar-fill').style.width = (a.leads / max * 100) + '%';
+    });
+  });
+
+  const alcance = ANUNCIOS.reduce((s, x) => s + x.alcance, 0);
+  const leads   = ANUNCIOS.reduce((s, x) => s + x.leads, 0);
+  const gasto   = ANUNCIOS.reduce((s, x) => s + x.gasto, 0);
+  document.getElementById('adFoot').innerHTML = `
+    <tr>
+      <td>Total</td>
+      <td class="hide-sm"></td>
+      <td>${nf.format(alcance)}</td>
+      <td>${leads}</td>
+      <td class="barcell"></td>
+      <td class="hide-sm">${money(gasto / leads)}</td>
+    </tr>`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GRÁFICO DE LÍNEA — una sola serie, sin leyenda (el título la nombra)
+   ══════════════════════════════════════════════════════════════ */
+/* El viewBox se arma con el ancho real del contenedor, así la escala es 1:1
+   y el trazo no se deforma al cambiar el tamaño de la ventana. */
+const H = 220, M = { t: 18, r: 14, b: 26, l: 34 };
+let W = 860;
+let serieActual = SERIE_14;
+
+function fechas(n) {
+  const out = [], hoy = new Date(2026, 10, 6);
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(hoy); d.setDate(hoy.getDate() - i);
+    out.push(d);
+  }
+  return out;
+}
+const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+const fmtDia = (d) => `${DIAS[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`;
+
+function dibujar(serie) {
+  const svg = document.getElementById('chart');
+  W = Math.max(360, Math.round(svg.getBoundingClientRect().width) || 860);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+  const ds = fechas(serie.length);
+  const max = Math.max(...serie);
+  /* techo "lindo": múltiplo de 2 por encima del máximo */
+  const top = Math.ceil((max * 1.25) / 2) * 2;
+
+  const x = (i) => M.l + (i / (serie.length - 1)) * (W - M.l - M.r);
+  const y = (v) => M.t + (1 - v / top) * (H - M.t - M.b);
+
+  let s = `<defs>
+    <linearGradient id="fadeBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#4E9BF5" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#4E9BF5" stop-opacity="0"/>
+    </linearGradient>
+  </defs>`;
+
+  /* Grilla + eje Y (recesivos) */
+  const pasos = 4;
+  for (let i = 0; i <= pasos; i++) {
+    const v = (top / pasos) * i, yy = y(v);
+    s += `<line class="grid-line" x1="${M.l}" y1="${yy}" x2="${W - M.r}" y2="${yy}"/>`;
+    s += `<text class="axis-txt" x="${M.l - 9}" y="${yy + 4}" text-anchor="end">${v}</text>`;
+  }
+
+  /* Área + línea */
+  const pts = serie.map((v, i) => [x(i), y(v)]);
+  s += `<path class="area" d="M${pts.map(p => p.join(',')).join(' L')} L${x(serie.length - 1)},${y(0)} L${x(0)},${y(0)} Z"/>`;
+  s += `<path class="series" d="M${pts.map(p => p.join(',')).join(' L')}"/>`;
+
+  /* Eje X: sólo algunas fechas, para que no se amontonen */
+  const salto = Math.ceil(serie.length / 7);
+  ds.forEach((d, i) => {
+    if (i % salto === 0 || i === serie.length - 1) {
+      s += `<text class="axis-txt" x="${x(i)}" y="${H - 6}" text-anchor="middle">${d.getDate()}/${d.getMonth() + 1}</text>`;
+    }
+  });
+
+  /* Etiqueta directa sólo en el pico */
+  const iMax = serie.indexOf(max);
+  s += `<text class="peak-label" x="${x(iMax)}" y="${y(max) - 12}">${max}</text>`;
+
+  /* Crosshair + puntos + zonas de hover anchas */
+  s += `<line class="crosshair" id="cross" x1="0" y1="${M.t}" x2="0" y2="${H - M.b}" style="opacity:0"/>`;
+  serie.forEach((v, i) => {
+    s += `<circle class="dot" id="dot-${i}" cx="${x(i)}" cy="${y(v)}" r="4.5"/>`;
+  });
+  const ancho = (W - M.l - M.r) / (serie.length - 1);
+  serie.forEach((v, i) => {
+    s += `<rect class="dot-hit" x="${x(i) - ancho / 2}" y="${M.t}" width="${ancho}" height="${H - M.t - M.b}"
+            data-i="${i}" data-v="${v}" data-d="${fmtDia(ds[i])}"/>`;
+  });
+
+  svg.innerHTML = s;
+  engancharHover(svg, serie, x, y);
+  pintarDatos(serie, ds);
+}
+
+function engancharHover(svg, serie, x, y) {
+  const tip = document.getElementById('tip');
+  const cross = svg.querySelector('#cross');
+  const wrap = svg.parentElement;
+
+  svg.querySelectorAll('.dot-hit').forEach((r) => {
+    r.addEventListener('mouseenter', () => {
+      const i = +r.dataset.i;
+      const px = x(i), py = y(serie[i]);
+      cross.setAttribute('x1', px); cross.setAttribute('x2', px);
+      cross.style.opacity = 1;
+      svg.querySelectorAll('.dot').forEach(d => d.classList.remove('on'));
+      svg.querySelector('#dot-' + i).classList.add('on');
+
+      /* del sistema de coordenadas del SVG a píxeles de la tarjeta */
+      const rect = svg.getBoundingClientRect();
+      tip.style.left = (rect.left - wrap.getBoundingClientRect().left + px / W * rect.width) + 'px';
+      tip.style.top  = (rect.top  - wrap.getBoundingClientRect().top  + py / H * rect.height) + 'px';
+      tip.querySelector('.tip-d').textContent = r.dataset.d;
+      tip.querySelector('.tip-v span:last-child').textContent =
+        r.dataset.v + (r.dataset.v === '1' ? ' lead' : ' leads');
+      tip.classList.add('on');
+    });
+  });
+  svg.addEventListener('mouseleave', () => {
+    tip.classList.remove('on');
+    cross.style.opacity = 0;
+    svg.querySelectorAll('.dot').forEach(d => d.classList.remove('on'));
+  });
+}
+
+/* Vista de tabla del gráfico (accesibilidad) */
+function pintarDatos(serie, ds) {
+  const filas = serie.map((v, i) => `<tr><td style="text-align:left">${fmtDia(ds[i])}</td><td>${v}</td></tr>`).join('');
+  document.getElementById('dataTable').innerHTML =
+    `<table><thead><tr><th>Día</th><th>Leads</th></tr></thead><tbody>${filas}</tbody></table>`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FILTROS Y ARRANQUE
+   ══════════════════════════════════════════════════════════════ */
+function serieDe(n) {
+  if (n === 14) return SERIE_14;
+  if (n === 7)  return SERIE_14.slice(-7);
+  /* 30 días: se extiende hacia atrás con valores plausibles */
+  const extra = [2, 4, 3, 5, 1, 6, 4, 2, 5, 3, 7, 4, 2, 6, 5, 3];
+  return extra.concat(SERIE_14);
+}
+
+document.querySelectorAll('.filters button').forEach((b) => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.filters button').forEach(o => o.setAttribute('aria-pressed', 'false'));
+    b.setAttribute('aria-pressed', 'true');
+    const n = +b.dataset.range;
+    document.getElementById('rangeLabel').textContent =
+      `Últimos ${n} días · actualizado hace 12 min`;
+    serieActual = serieDe(n);
+    dibujar(serieActual);
+  });
+});
+
+document.getElementById('toggleData').addEventListener('click', (e) => {
+  const dt = document.getElementById('dataTable');
+  const on = dt.classList.toggle('on');
+  e.target.textContent = on ? 'Ocultar datos' : 'Ver datos';
+  e.target.setAttribute('aria-expanded', String(on));
+});
+
+pintarKpis();
+pintarAnuncios();
+dibujar(serieActual);
+
+let reTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(reTimer);
+  reTimer = setTimeout(() => dibujar(serieActual), 120);
+});
+</script>
+</body>
+</html>
